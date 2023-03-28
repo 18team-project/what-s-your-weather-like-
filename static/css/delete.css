@@ -33,6 +33,7 @@
 }
 
 .login_popup strong{
+  display: block;
   font-size: 36px;
   font-family: 'GmarketSansMedium';
 }
@@ -65,8 +66,12 @@
   font-weight: 900;
   text-align: center;
   cursor: pointer;
+  transition: all 0.3s;
 }
-
+.btn_login .btn_yes:hover,
+.btn_login .btn_no:hover{
+  background-color: #CBF1F5;
+}
 .fa-regular{
   display: block;
   font-size: 250px;

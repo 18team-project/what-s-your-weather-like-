@@ -1,20 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>What's your weather like</title>
 </head>
+
 <body>
     <!-- common/layout.html -->
-    {% extends "common/layout.html" %}
-    {% block content %}
+    <!-- {% extends "common/layout.html" %}
+    {% block content %} -->
     <!-- home.html -->
-    <div>
-        <h2>해당 페이지의 내용입니다!!!!@@@</h2>
-    </div>  
-    {% include "common/pop.html"  ignore missing %}
-    {% endblock %}
+    <div class="main_wrap">
+        <main>
+            <h2>지금 당신의 기분은?</h2>
+
+            <div>
+                <span data-value="m01">😀</span>
+                <span data-value="m02">😆</span>
+                <span data-value="m03">😫</span>
+                <span data-value="m04">😕</span>
+                <span data-value="m05">🤬</span>
+            </div>
+            <label for="date">
+                날짜를 선택하세요:
+                <input type="date" id="date" max="2023-12-31" min="2023-03-27">
+            </label>
+
+            <label for="text">
+                <input type="text" id="text">
+            </label>
+
+        </main>
+    </div>
+    <!-- {% include "common/pop.html"  ignore missing %}
+    {% endblock %} -->
+    <script>
+        const today = new Date(); // 현재 시간과 날짜 객체를 생성합니다.
+
+        const year = today.getFullYear(); // 현재 연도를 가져옵니다.
+        const month = today.getMonth() + 1; // 월은 0부터 시작하므로 1을 더해줍니다.
+        const date = today.getDate(); // 현재 날짜를 가져옵니다.
+
+        // 월과 일이 10보다 작은 경우 앞에 0을 붙입니다.
+        const formattedMonth = month < 10 ? `0${month}` : month;
+        const formattedDate = date < 10 ? `0${date}` : date;
+
+        // 년-월-일 형식으로 날짜를 출력합니다.
+        const currentDate = `${year}년 ${formattedMonth}월 ${formattedDate}일`;
+    </script>
 </body>
+
 </html>

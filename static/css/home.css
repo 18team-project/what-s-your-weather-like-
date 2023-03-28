@@ -1,0 +1,168 @@
+@font-face {
+  font-family: 'GmarketSansMedium';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  position: relative;
+  height: 100%;
+}
+
+body {
+  font-family: 'GmarketSansMedium';
+  font-size: 14px;
+  color: #000;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+video {
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.title {
+  height: 100px;
+  text-align: center;
+  padding-top: 100px;
+  letter-spacing: 2px;
+  font-size: 60px;
+  color: rgba(0, 0, 0, 0.8)
+}
+
+.swiper {
+  width: 100%;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.swiper-slide,
+.swiper-slide.last {
+  background-position: center;
+  background-size: cover;
+  width: 400px;
+  height: 600px;
+  background-color: #A6E3E9;
+  border-radius: 12px;
+  border: 5px solid rgb(0, 0, 0);
+}
+
+.swiper-slide h2 {
+  font-size: 35px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.swiper-slide p {
+  font-size: 25px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.swiper-slide span {
+  display: block;
+  font-size: 300px;
+  text-align: center;
+}
+
+.swiper-slide a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 80px;
+}
+
+button {
+  background-color: transparent;
+  border: 1px solid black;
+  padding: 15px;
+  border-radius: 12px;
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  font-size: 30px;
+  font-weight: 900;
+  font-family: 'GmarketSansMedium';
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid transparent;
+}
+
+@media (max-width:1315px) {
+  button {
+    font-size: 20px;
+  }
+
+  .title {
+    font-size: 40px;
+  }
+
+}
+
+@media (max-width:912px) {
+  button {
+    top: initial;
+    right: 50%;
+    width: 350px;
+    padding: 20px;
+    font-size: 35px;
+    transform: translateX(50%);
+    border: none;
+  }
+
+  button:hover {
+    background-color: rgba(255, 255, 255, 0.6);
+    border: none;
+  }
+
+  .swiper-slide,
+  .swiper-slide.last {
+    width: 350px;
+    height: 500px;
+  }
+
+  .title {
+    font-size: 30px;
+  }
+
+  .swiper-slide h2 {
+    font-size: 25px;
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .swiper-slide p {
+    font-size: 20px;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .swiper-slide span {
+    display: block;
+    font-size: 240px;
+    text-align: center;
+  }
+
+}

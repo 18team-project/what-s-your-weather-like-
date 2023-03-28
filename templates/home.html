@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="../css/home.css">
+</head>
+
+<body>
+  <!-- Swiper -->
+  <video src="../video/-48501.mp4" autoplay loop muted></video>
+  <h1 class="title">What's your weather like?</h1>
+  <div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide first">
+        <a href="#">
+          <img src="../img/plus-solid.svg" alt="">
+        </a>
+      </div>
+
+      <div class="swiper-slide first">
+        <a href="#">
+          <img src="../img/plus-solid.svg" alt="">
+        </a>
+      </div>
+
+      <div class="swiper-slide first">
+        <a href="#">
+          <img src="../img/plus-solid.svg" alt="">
+        </a>
+      </div>
+
+      <div class="swiper-slide first">
+        <a href="#">
+          <img src="../img/plus-solid.svg" alt="">
+        </a>
+      </div>
+
+      <div class="swiper-slide first">
+        <a href="#">
+          <img src="../img/plus-solid.svg" alt="">
+        </a>
+      </div>
+
+      <div class="swiper-slide first">
+        <a href="#">
+          <img src="../img/plus-solid.svg" alt="">
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+  <!-- Initialize Swiper -->
+  <script>
+    var swiper = new Swiper(".mySwiper", {
+      effect: "coverflow",
+      grabCursor: true,
+      centeredSlides: true,
+      slidesPerView: "auto",
+      coverflowEffect: {
+        rotate: 50,
+        stretch: 0,
+        depth: 100,
+        modifier: 1,
+        slideShadows: true,
+      },
+    });
+  </script>
+  <button>Sign in</button>
+</body>
+
+</html>

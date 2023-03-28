@@ -1,0 +1,90 @@
+@font-face {
+  font-family: 'GmarketSansMedium';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.dark {
+  display: block;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 5;
+  cursor: pointer;
+}
+
+.login_popup {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px;
+  background-color: #E3FDFD;
+  z-index: 6;
+  border-radius: 16px;
+  padding: 40px 55px;
+  text-align: center;
+}
+
+.login_popup strong{
+  font-size: 36px;
+  font-family: 'GmarketSansMedium';
+}
+.login_popup p{
+  font-size: 36px;
+  font-family: 'GmarketSansMedium';
+}
+
+.btn_login {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.btn_login .btn_yes,
+.btn_login .btn_no{
+  width: 50%;
+  height: 60px;
+  background-color: #A6E3E9;
+  padding: 10px;
+  margin-top: 15px;
+  border-radius: 50px;
+  font-size: 18px;
+  font-weight: 900;
+  border: none;
+  font-family: 'GmarketSansMedium';
+  font-weight: 900;
+  text-align: center;
+  cursor: pointer;
+}
+
+.fa-regular{
+  display: block;
+  font-size: 250px;
+  color: #eb4220;
+  margin-bottom: 30px;
+}
+.btn_close{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 36px;
+  height: 36px;
+  text-align: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+.fa-xmark{
+  display: block;
+  font-size: 36px;
+}

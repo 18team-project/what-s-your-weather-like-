@@ -70,7 +70,7 @@ def home():
     ])
     print("-----------")
     print(list(test2))
-    return render_template('mood.html')
+    return render_template('home.html')
 
 @app.route("/register")
 def go_page_register():

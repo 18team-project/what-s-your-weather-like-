@@ -47,9 +47,7 @@ def home():
             "pipeline":[
                 {"$project":{
                 "_id":0,
-                
                 "mood_nm":0,
-
                 "mood_desc":0
                 } 
                 },
@@ -76,13 +74,12 @@ def home():
 @app.route("/register")
 def go_page_register():
     # 크롤링
-    url = "https://www.google.com/search?q=%ED%98%84%EC%9E%AC+%EB%82%A0%EC%94%A8&sxsrf=APwXEder-3VCFE-cJgu0S-v_teumLWQmJQ%3A1680035186735&ei=ck0jZPjBLJuB2roPtqK7sAU&ved=0ahUKEwj4wo_kuv_9AhWbgFYBHTbRDlYQ4dUDCA8&uact=5&oq=%ED%98%84%EC%9E%AC+%EB%82%A0%EC%94%A8&gs_lcp=Cgxnd3Mtd2l6LXNlcnAQAzIMCCMQJxCdAhBGEIACMgcIABCKBRBDMgcIABCKBRBDMgoIABCABBAUEIcCMgUIABCABDIFCAAQgAQyBQgAEIAEMgQIABAeMgQIABAeMgQIABAeOgQIIxAnOgQIABADOgsIABCABBCxAxCDAToLCC4QgAQQsQMQgwE6EQguEIAEELEDEIMBEMcBENEDOhEILhCDARDHARCxAxDRAxCABDoICAAQgAQQsQM6BQguEIAEOgoILhCKBRDUAhBDSgQIQRgAUABYoAtgtBBoAXABeAGAAYQCiAHMC5IBBjAuMTAuMZgBAKABAcABAQ&sclient=gws-wiz-serp"
-    headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
+    url = "https://www.google.com/search?q=current+weather&sxsrf=APwXEdfhnCnLGmLoxPRGIMH-WysBGvihEg%3A1680080103977&ei=5_wjZPOHO_Hg2roP8auhqAo&oq=currweather&gs_lcp=Cgxnd3Mtd2l6LXNlcnAQAxgAMgYIABAHEB4yBggAEAcQHjIGCAAQBxAeMgYIABAHEB4yBggAEAcQHjIGCAAQBxAeMgcIABANEIAEMgYIABAHEB4yBggAEAcQHjIGCAAQBxAeOgoIABBHENYEELADOgoIABCKBRCwAxBDOg8IIxCxAhAnEJ0CEEYQgAJKBAhBGABQui9YwzZg2D5oBXABeACAAY0CiAHhBZIBBTAuMi4ymAEAoAEByAEKwAEB&sclient=gws-wiz-serp"
+    headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36',
+               }
     data = requests.get(url,headers=headers)
     soup = BeautifulSoup(data.text, 'html.parser')
     weather_type = soup.select_one('span#wob_dc').text
-    print(weather_type)
-
     # 이동
     return render_template('register.html', weather_type = weather_type)
 
@@ -99,14 +96,9 @@ def chk_nm():
     if user is None :
         msg = "사용 가능한 닉네임 입니다."
         chkr = True
-
     else :
         msg = "사용 불가능한 닉네임 입니다."
         chkr = False
-
-    # 저장
-    # user = {'name': name_receive, 'address': address_receive, 'size':size_receive}
-    # db.mars.insert_one(doc)
 
     return jsonify({'msg':msg, 'chkr':chkr})
 

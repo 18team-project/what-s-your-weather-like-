@@ -109,6 +109,27 @@
 		}
 	</style>
 	<script>
+		let w_type = `{{ weather_type }}`
+
+		window.onload = function () {
+			// 날씨
+			get_weather_type(w_type)
+		}
+
+		function get_weather_type(weather_type) {
+			let w_type = weather_type;
+			if (w_type.includes('맑음')) {
+				document.getElementById("b_viedo").setAttribute('src', "../static/video/weather/w_sunny.mp4")
+			} else if (w_type.includes('흐림') || w_type.includes('구름') || w_type.includes('흐리고') || w_type.includes('흐린')) {
+				document.getElementById("b_viedo").setAttribute('src', "../static/video/weather/w_partly_cloudy.mp4")
+			} else if (w_type.includes('비') || w_type.includes('소나기') || w_type.includes('강우') || w_type.includes('뇌우')) {
+				document.getElementById("b_viedo").setAttribute('src', "../static/video/weather/w_rain_train.mp4")
+			} else {
+				document.getElementById("b_viedo").setAttribute('src', "../static/video/ocean.mp4")
+
+			}
+		}
+
 		function login() {
 			const username = document.querySelector("#user_nm").value;
 			const password = document.querySelector("#user_pw").value;
@@ -156,7 +177,7 @@
 <body>
 	{% extends "common/layout.html" %}
 	{% block content %}
-	<video src="../static/video/ocean.mp4" autoplay loop muted></video>
+	<video id='b_viedo' src="../static/video/ocean.mp4" autoplay loop muted></video>
 	<div class="container">
 		<div class="box">
 			<h2>당신의 날씨를 기록하세요!</h2>

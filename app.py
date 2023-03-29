@@ -132,7 +132,7 @@ def go_page_mood():
 
 @app.route('/login')
 def gologinpage():
-    return render_template('login.html')
+    return render_template('login.html',weather_type = weather_type)
 
 @app.route('/login', methods=['POST'])
 def login():

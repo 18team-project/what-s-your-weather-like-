@@ -1,6 +1,11 @@
 from flask import Flask, render_template, request, jsonify
 app = Flask(__name__)
 
+# 크롤링
+import requests
+from bs4 import BeautifulSoup
+import time
+
 # DB
 from pymongo import MongoClient
 import certifi
@@ -41,10 +46,10 @@ def home():
             "pipeline":[
                 {"$project":{
                 "_id":0,
-                 
-                 "mood_nm":0,
-    
-                 "mood_desc":0
+
+                "mood_nm":0,
+
+                "mood_desc":0
                 } 
                 },
                 {"$match": 
@@ -66,6 +71,65 @@ def home():
     print("-----------")
     print(list(test2))
     return render_template('index.html')
+
+
+@app.route("/register")
+def go_page_register():
+    # 크롤링
+    url = "https://www.google.com/search?q=%ED%98%84%EC%9E%AC+%EB%82%A0%EC%94%A8&sxsrf=APwXEder-3VCFE-cJgu0S-v_teumLWQmJQ%3A1680035186735&ei=ck0jZPjBLJuB2roPtqK7sAU&ved=0ahUKEwj4wo_kuv_9AhWbgFYBHTbRDlYQ4dUDCA8&uact=5&oq=%ED%98%84%EC%9E%AC+%EB%82%A0%EC%94%A8&gs_lcp=Cgxnd3Mtd2l6LXNlcnAQAzIMCCMQJxCdAhBGEIACMgcIABCKBRBDMgcIABCKBRBDMgoIABCABBAUEIcCMgUIABCABDIFCAAQgAQyBQgAEIAEMgQIABAeMgQIABAeMgQIABAeOgQIIxAnOgQIABADOgsIABCABBCxAxCDAToLCC4QgAQQsQMQgwE6EQguEIAEELEDEIMBEMcBENEDOhEILhCDARDHARCxAxDRAxCABDoICAAQgAQQsQM6BQguEIAEOgoILhCKBRDUAhBDSgQIQRgAUABYoAtgtBBoAXABeAGAAYQCiAHMC5IBBjAuMTAuMZgBAKABAcABAQ&sclient=gws-wiz-serp"
+    headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
+    data = requests.get(url,headers=headers)
+    soup = BeautifulSoup(data.text, 'html.parser')
+    weather_type = soup.select_one('span#wob_dc').text
+    print(weather_type)
+
+    # 이동
+    return render_template('register.html', weather_type = weather_type)
+
+
+@app.route('/chk_nm', methods=["POST"])
+def chk_nm():
+    # 데이터받기
+    user_nm_receive = request.form['user_nm']
+
+    # 조회
+    user = db.th_user.find_one({'user_nm':user_nm_receive})
+    msg = ""
+    chkr = False
+    if user is None :
+        msg = "사용 가능한 닉네임 입니다."
+        chkr = True
+
+    else :
+        msg = "사용 불가능한 닉네임 입니다."
+        chkr = False
+
+    # 저장
+    # user = {'name': name_receive, 'address': address_receive, 'size':size_receive}
+    # db.mars.insert_one(doc)
+
+    return jsonify({'msg':msg, 'chkr':chkr})
+
+
+@app.route('/register', methods=["POST"])
+def register_sign_up():
+    # 데이터받기
+    user_nm_receive = request.form['user_nm']
+    user_pw_receive = request.form['user_pw']
+
+    # 저장
+    user = {'user_nm' :user_nm_receive,
+            'user_pw':user_pw_receive }
+    db.th_user.insert_one(user)
+    return jsonify({'msg':'회원가입이 완료되었습니다.\n 당신의 날씨를 꾸준히 기록해주세요!'})
+
+@app.route("/mood")
+def go_page_mood():
+    # 이동
+    # user_nm_receive = request.form['user_nm']
+    # login_yn_receive = request.form['login_yn']
+    # print(user_nm_receive, login_yn_receive)
+    return render_template('mood.html')
 
 if __name__ == '__main__':
    app.run('0.0.0.0', port=5002, debug=True)

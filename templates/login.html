@@ -7,7 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Login Page</title>
 	<style>
-		body { 
+		body {
 			margin: 0;
 			padding: 0;
 			overflow-x: hidden;
@@ -95,7 +95,6 @@
 			height: 100%;
 			object-fit: cover;
 		}
-
 	</style>
 </head>
 
@@ -117,7 +116,7 @@
 	</div>
 	{% endblock %}
 	<script>
-		function signIn() {
+		function login() {
 			const username = document.querySelector("#user_nm").value;
 			const password = document.querySelector("#user_pw").value;
 			console.log(username, password)
@@ -143,7 +142,8 @@
 				.then(response => response.json())
 				.then(data => {
 					if (data.status === 'success') {
-						window.location.href = "main.html"; // 메인 페이지로 이동
+						sessionStorage.setItem("username", username);
+						window.location.href = '/mood';
 					} else {
 						console.log(data.message);
 						console.log(data.username);
@@ -152,14 +152,34 @@
 					}
 				})
 				.catch(error => console.error(error));
-		}
+		};
 		function goToSignUp() {
 			window.location.href = "signup.html"; // 회원가입 페이지로 이동
-		}	
+		}
 	</script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bcryptjs/2.4.3/bcrypt.min.js"></script>
 
-	<!--<script src="./login.js"></script>-->
+</head>
+
+<body>
+	{% extends "common/layout.html" %}
+	{% block content %}
+	<video src="../static/video/ocean.mp4" autoplay loop muted></video>
+	<div class="container">
+		<div class="box">
+			<h2>당신의 날씨를 기록하세요!</h2>
+		</div>
+		<div class="box2">
+			<input type="text" id="user_nm" placeholder="Nickname">
+			<input type="password" id="user_pw" placeholder="Password">
+			<button onclick="login()">Sign In</button>
+			<a href="register.html" class="signup-btn" style="text-decoration: none; color: white;">Sign Up</a>
+			<!-- <div class="space"></div> -->
+			{{ username }}
+		</div>
+	</div>
+	{% endblock %}
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bcryptjs/2.4.3/bcrypt.min.js"></script>
 
 </body>
 

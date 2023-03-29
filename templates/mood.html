@@ -6,51 +6,82 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>What's your weather like</title>
+    <link rel="stylesheet" href="../static/css/mood.css">
+    <script>
+        let curIcon = ''
+        window.onload = function () {
+            listing()
+            document.getElementById('date').value = new Date().toISOString().substring(0, 10);
+            const moodIconArr = document.getElementsByClassName('mood_span')
+            Array.prototype.forEach.call(moodIconArr, a => {
+                a.addEventListener('click', () => {
+                    Array.prototype.map.call(moodIconArr, b => b.classList.remove('active'))
+                    a.classList.add('active');
+                    curIcon = a.innerText
+                })
+            })
+        }
+
+        function listing() {
+            fetch('/login').then((res) => res.json()).then((data) => {
+                let rows = data['result']
+                rows.forEach((a) => {
+                    let comment = a['comment']
+                    $('#cards-box').append(temp_html)
+                })
+            })
+        }
+
+        function posting() {
+            let date = document.querySelector('#date').value
+            let text = document.querySelector('#text').value
+            let mood_cd = curIcon
+            let formData = new FormData();
+            formData.append("date_give", date);
+            formData.append("text_give", text);
+            formData.append("mood_cd_give", mood_cd);
+            formData.append("user_nm_give", '최말자');
+
+            fetch('/mood', { method: "POST", body: formData }).then((res) => res.json()).then((data) => {
+                // window.location.reload()
+            })
+        }
+    </script>
 </head>
 
 <body>
     <!-- common/layout.html -->
-    <!-- {% extends "common/layout.html" %}
-    {% block content %} -->
+    {% extends "common/layout.html" %}
+    {% block content %}
     <!-- home.html -->
-    <div class="main_wrap">
-        <main>
+    <div class="container">
+        <div class="main_wrap">
             <h2>지금 당신의 기분은?</h2>
 
-            <div>
-                <span data-value="m01">😀</span>
-                <span data-value="m02">😆</span>
-                <span data-value="m03">😫</span>
-                <span data-value="m04">😕</span>
-                <span data-value="m05">🤬</span>
+            <div class="mood_box">
+                <span data-value="m01" class="mood_span">😀</span>
+                <span data-value="m02" class="mood_span">😆</span>
+                <span data-value="m03" class="mood_span">😫</span>
+                <span data-value="m04" class="mood_span">😕</span>
+                <span data-value="m05" class="mood_span">🤬</span>
             </div>
-            <label for="date">
-                날짜를 선택하세요:
+
+            <label for="date" class="date_Wrap">
+                날짜를 선택하세요 :
                 <input type="date" id="date" max="2023-12-31" min="2023-03-27">
             </label>
 
             <label for="text">
-                <input type="text" id="text">
+                <textarea name="text" id="text" cols="9" rows="9"></textarea>
             </label>
 
-        </main>
+            <button id="mood_btn" class="submit_btn" type="button" onclick="posting()">
+                저장하기
+            </button>
+        </div>
+        <!-- {% include "common/pop.html"  ignore missing %} -->
     </div>
-    <!-- {% include "common/pop.html"  ignore missing %}
-    {% endblock %} -->
-    <script>
-        const today = new Date(); // 현재 시간과 날짜 객체를 생성합니다.
-
-        const year = today.getFullYear(); // 현재 연도를 가져옵니다.
-        const month = today.getMonth() + 1; // 월은 0부터 시작하므로 1을 더해줍니다.
-        const date = today.getDate(); // 현재 날짜를 가져옵니다.
-
-        // 월과 일이 10보다 작은 경우 앞에 0을 붙입니다.
-        const formattedMonth = month < 10 ? `0${month}` : month;
-        const formattedDate = date < 10 ? `0${date}` : date;
-
-        // 년-월-일 형식으로 날짜를 출력합니다.
-        const currentDate = `${year}년 ${formattedMonth}월 ${formattedDate}일`;
-    </script>
+    {% endblock %}
 </body>
 
 </html>

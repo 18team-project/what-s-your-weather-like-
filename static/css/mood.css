@@ -1,0 +1,99 @@
+@font-face {
+  font-family: 'GmarketSansMedium';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+*{
+  padding: 0;
+  margin: 0;
+  font-family: 'GmarketSansMedium';
+  box-sizing: border-box;
+}
+.container{
+  height: 830px;
+  padding-top: 100px;
+}
+.main_wrap{
+  width: 500px;
+  height: 640px;
+  background-color: rgba(201, 244, 244, 0.5);
+  margin: 0px auto;
+  padding: 20px;
+  border-radius: 12px;
+}
+.main_wrap h2{
+  font-size: 26px;
+  text-align: center;
+  margin-bottom: 25px;
+}
+.mood_box{
+  text-align: center;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-bottom: 30px;
+}
+.mood_box span{
+  font-size: 50px;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 5px;
+  transition: all 0.3s;
+}
+
+.mood_box span.active {
+  background-color: rgb(228, 38, 38);
+}
+.mood_box span:hover{
+  background-color: rgb(234, 17, 17);
+}
+.date_Wrap{
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+input[type='date'] {
+  box-sizing: border-box;
+  letter-spacing: 10px;
+  font-size: 18px;
+  font-weight: 900;
+  border: 2px solid #E3FDFD;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+#text {
+  width: 100%;
+  height: 300px;
+  padding: 25px;
+  line-height: 23px;
+  resize: none;
+  background-image: url(../img/letter.png);
+  background-size: cover;
+  background-position-y: -112px;
+  background-repeat: no-repeat;
+  font-size: 18px;
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+  .submit_btn {
+    width: 100%;
+    padding: 10px;
+    letter-spacing: 5px;
+    background-color: #71C9CE;
+    border: none;
+    border-radius: 12px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .submit_btn:hover{
+    background-color: #FC5185;
+  }

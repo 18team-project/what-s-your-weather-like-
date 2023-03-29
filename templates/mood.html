@@ -11,8 +11,8 @@
 
 <body>
     <!-- common/layout.html -->
-    <!-- {% extends "common/layout.html" %}
-    {% block content %} -->
+    {% extends "common/layout.html" %}
+    {% block content %}
     <!-- home.html -->
     <div class="main_wrap">
         <form action="">
@@ -33,10 +33,10 @@
             <label for="text">
                 <input type="text" id="text">
             </label>
-        </form>>
+        </form>
     </div>
-    <!-- {% include "common/pop.html"  ignore missing %}
-    {% endblock %} -->
+    <!-- {% include "common/pop.html"  ignore missing %} -->
+    {% endblock %}
     <script>
         const today = new Date(); // 현재 시간과 날짜 객체를 생성합니다.
 

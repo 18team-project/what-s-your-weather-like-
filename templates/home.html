@@ -1,23 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>What's your weather like</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What's your weather like</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="../static/css/home.css">
 </head>
+
 <body>
-    <!-- common/layout.html -->
-    {% extends "common/layout.html" %}
-    {% block content %}
-    <!-- home.html -->
-    <div>
-        <h2>해당 페이지의 내용입니다!!!!@@@</h2>
-    </div>  
-    {% include "common/pop.html"  ignore missing %}
-    {% endblock %}
+  <!-- home.html -->
+  <video src="../static/video/-48501.mp4" autoplay loop muted></video>
+  <h1 class="title">What's your weather like?</h1>
+  <div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <h2>23년 02월 15일</h2>
+        <p>고길동 님의 날씨</p>
+        <span>🤬</span>
+      </div>
+
+      <div class="swiper-slide">
+        <h2>23년 02월 21일</h2>
+        <p>둘리 님의 날씨</p>
+        <span>😆</span>
+      </div>
+
+      <div class="swiper-slide">
+        <h2>23년 02월 27일</h2>
+        <p>또치 님의 날씨</p>
+        <span>😫</span>
+      </div>
+
+      <div class="swiper-slide">
+        <h2>23년 03월 05일</h2>
+        <p>도우너 님의 날씨</p>
+        <span>😀</span>
+      </div>
+
+      <div class="swiper-slide last">
+        <a href="#">
+          <img src="../static/img/plus-solid.svg" alt="">
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+  <!-- Initialize Swiper -->
+  <script>
+    var swiper = new Swiper(".mySwiper", {
+      effect: "coverflow",
+      grabCursor: true,
+      centeredSlides: true,
+      slidesPerView: "auto",
+      coverflowEffect: {
+        rotate: 50,
+        stretch: 0,
+        depth: 100,
+        modifier: 1,
+        slideShadows: true,
+      },
+    });
+  </script>
+  <button>Sign in</button>
 </body>
+
 </html>
-
-
-

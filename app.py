@@ -41,10 +41,10 @@ def home():
             "pipeline":[
                 {"$project":{
                 "_id":0,
-                 
-                 "mood_nm":0,
-    
-                 "mood_desc":0
+                
+                "mood_nm":0,
+
+                "mood_desc":0
                 } 
                 },
                 {"$match": 
@@ -61,11 +61,11 @@ def home():
             }
         },
         {"$unwind" : "$emojiInfo"},    
-           
+
     ])
     print("-----------")
     print(list(test2))
-    return render_template('index.html')
+    return render_template('mood.html')
 
 if __name__ == '__main__':
-   app.run('0.0.0.0', port=5002, debug=True)
+    app.run('0.0.0.0', port=5002, debug=True)

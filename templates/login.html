@@ -95,26 +95,8 @@
 			height: 100%;
 			object-fit: cover;
 		}
-	</style>
-</head>
 
-<body>
-	{% extends "common/layout.html" %}
-	{% block content %}
-	<video src="../static/video/ocean.mp4" autoplay loop muted></video>
-	<div class="container">
-		<div class="box">
-			<h2>당신의 날씨를 기록하세요!</h2>
-		</div>
-		<div class="box2">
-			<input type="text" id="user_nm" placeholder="Nickname">
-			<input type="password" id="user_pw" placeholder="Password">
-			<button onclick="signIn()">Sign In</button>
-			<a href="signup.html" class="signup-btn" style="text-decoration: none; color: white;">Sign Up</a>
-			<!-- <div class="space"></div> -->
-		</div>
-	</div>
-	{% endblock %}
+	</style>
 	<script>
 		function login() {
 			const username = document.querySelector("#user_nm").value;
@@ -152,10 +134,10 @@
 					}
 				})
 				.catch(error => console.error(error));
-		};
+		}
 		function goToSignUp() {
 			window.location.href = "signup.html"; // 회원가입 페이지로 이동
-		}
+		}	
 	</script>
 
 </head>

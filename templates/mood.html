@@ -6,15 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>What's your weather like</title>
+    <link rel="stylesheet" href="../static/css/mood.css">
 </head>
 
 <body>
     <!-- common/layout.html -->
-    <!-- {% extends "common/layout.html" %}
-    {% block content %} -->
+    {% extends "common/layout.html" %}
+    {% block content %}
     <!-- home.html -->
     <div class="main_wrap">
-        <main>
+        <form action="">
             <h2>지금 당신의 기분은?</h2>
 
             <div>
@@ -32,11 +33,10 @@
             <label for="text">
                 <input type="text" id="text">
             </label>
-
-        </main>
+        </form>
     </div>
-    <!-- {% include "common/pop.html"  ignore missing %}
-    {% endblock %} -->
+    <!-- {% include "common/pop.html"  ignore missing %} -->
+    {% endblock %}
     <script>
         const today = new Date(); // 현재 시간과 날짜 객체를 생성합니다.
 

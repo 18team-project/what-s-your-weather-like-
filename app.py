@@ -203,4 +203,4 @@ def gogo():
         return redirect(url_for('gologinpage'))
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':    app.run('0.0.0.0', port=5002, debug=True)

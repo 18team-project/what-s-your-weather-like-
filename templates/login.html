@@ -1,20 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>What's your weather like</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Login Page</title>
+	<style>
+		.container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			height: 100vh;
+		}
+
+		.box {
+			width: 300px;
+			height: 100px;
+			background-color: #eee;
+			border: 1px solid #ccc;
+			padding: 20px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.box2 {
+			width: 100px;
+			height: 5px;
+			margin-top: 50px;
+			background-color: #eee;
+			border: 1px solid #ccc;
+			padding: 120px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+		}
+
+		input[type=text],
+		input[type=password] {
+			padding: 10px;
+			margin: 5px;
+			border: none;
+			border-radius: 5px;
+			box-shadow: 1px 1px 3px #ccc;
+			width: 100%;
+		}
+
+		button,
+		a.single-btn {
+			padding: 5px 20px;
+			margin: 5px;
+			border: none;
+			border-radius: 5px;
+			background-color: transparent;
+			color: black;
+			cursor: pointer;
+			width: 100%;
+			text-align: center;
+			display: inline-block;
+			box-sizing: border-box;
+			font-size: small;
+		}
+
+		button:hover {
+			background-color: transparent;
+		}
+
+		a.signup-btn {
+			display: block;
+			font-size: small;
+		}
+
+		.space {
+			margin: 0px;
+			height: 30px;
+			width: 100%;
+		}
+	</style>
 </head>
+
 <body>
-    <!-- common/layout.html -->
-    {% extends "common/layout.html" %}
-    {% block content %}
-    <!-- home.html -->
-    <div>
-        <h2>해당 페이지의 내용입니다!!!!@@@</h2>
-    </div>  
-    {% include "common/pop.html"  ignore missing %}
-    {% endblock %}
+	<div class="container">
+		<div class="box">
+			<h2>당신의 날씨를 기록하세요!</h2>
+		</div>
+		<div class="box2">
+			<input type="text" id="user_nm" placeholder="Nickname">
+			<input type="password" id="user_pw" placeholder="Password">
+			<button onclick="signIn()">Sign In</button>
+			<a href="signup.html" class="signup-btn">Sign Up</a>
+			<div class="space"></div>
+		</div>
+	</div>
+	<script>
+		function signIn() {
+			const username = document.querySelector("#user_nm").value;
+			const password = document.querySelector("#user_pw").value;
+			console.log(username, password)
+
+			if (username === "") {
+				alert("Nickname을 입력해 주세요!");
+				return;
+			} else if (username.length > 14) {
+				alert("최대 14글자까지 가능합니다.");
+				return;
+			}
+
+			fetch('/login', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					'user_nm': username,
+					'user_pw': password
+				})
+			})
+				.then(response => response.json())
+				.then(data => {
+					if (data.status === 'success') {
+						window.location.href = "main.html"; // 메인 페이지로 이동
+					} else {
+						console.log(data.message);
+						console.log(data.username);
+						console.log(data.password);
+						alert("로그인 정보가 일치하지 않습니다.");
+					}
+				})
+				.catch(error => console.error(error));
+		}
+		function goToSignUp() {
+            window.location.href = "signup.html"; // 회원가입 페이지로 이동
+        }
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bcryptjs/2.4.3/bcrypt.min.js"></script>
+
+	<!--<script src="./login.js"></script>-->
 </body>
+
 </html>

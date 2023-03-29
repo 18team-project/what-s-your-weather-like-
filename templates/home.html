@@ -8,11 +8,32 @@
   <title>What's your weather like</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
   <link rel="stylesheet" href="../static/css/home.css">
+  <script>
+    let w_type = `{{ weather_type }}`
+    window.onload = function () {
+      // 날씨
+      get_weather_type(w_type)
+    }
+
+    function get_weather_type(weather_type) {
+      let w_type = weather_type;
+      if (w_type.includes('맑음')) {
+        document.getElementById("b_viedo").setAttribute('src', "../static/video/weather/w_mostly_sunny.mp4")
+      } else if (w_type.includes('흐림') || w_type.includes('구름') || w_type.includes('흐리고') || w_type.includes('흐린')) {
+        document.getElementById("b_viedo").setAttribute('src', "../static/video/weather/w_partly_cloudy.mp4")
+      } else if (w_type.includes('비') || w_type.includes('소나기') || w_type.includes('강우') || w_type.includes('뇌우')) {
+        document.getElementById("b_viedo").setAttribute('src', "../static/video/weather/w_rain_train.mp4")
+      } else {
+        document.getElementById("b_viedo").setAttribute('src', "../static/video/ocean.mp4")
+      }
+    }
+    
+  </script>
 </head>
 
 <body>
   <!-- home.html -->
-  <video src="../static/video/home.mp4" autoplay loop muted></video>
+  <video src="../static/video/home.mp4" autoplay loop muted id="b_viedo"></video>
   <img src="../static/img/logo.svg" alt="logo" class="logo">
   <h1 class="title">What's your weather like?</h1>
   <div class="swiper mySwiper">
@@ -49,6 +70,7 @@
     </div>
   </div>
 
+  <button>Sign in</button>
   <!-- Swiper JS -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 
@@ -68,7 +90,6 @@
       },
     });
   </script>
-  <button>Sign in</button>
 </body>
 
 </html>

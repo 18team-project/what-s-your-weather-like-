@@ -1,10 +1,17 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 app = Flask(__name__)
+app.secret_key = 'user_nm'
 
 # 크롤링
 import requests
 from bs4 import BeautifulSoup
 import time
+
+url = "https://www.google.com/search?q=%ED%98%84%EC%9E%AC+%EB%82%A0%EC%94%A8&sxsrf=APwXEder-3VCFE-cJgu0S-v_teumLWQmJQ%3A1680035186735&ei=ck0jZPjBLJuB2roPtqK7sAU&ved=0ahUKEwj4wo_kuv_9AhWbgFYBHTbRDlYQ4dUDCA8&uact=5&oq=%ED%98%84%EC%9E%AC+%EB%82%A0%EC%94%A8&gs_lcp=Cgxnd3Mtd2l6LXNlcnAQAzIMCCMQJxCdAhBGEIACMgcIABCKBRBDMgcIABCKBRBDMgoIABCABBAUEIcCMgUIABCABDIFCAAQgAQyBQgAEIAEMgQIABAeMgQIABAeMgQIABAeOgQIIxAnOgQIABADOgsIABCABBCxAxCDAToLCC4QgAQQsQMQgwE6EQguEIAEELEDEIMBEMcBENEDOhEILhCDARDHARCxAxDRAxCABDoICAAQgAQQsQM6BQguEIAEOgoILhCKBRDUAhBDSgQIQRgAUABYoAtgtBBoAXABeAGAAYQCiAHMC5IBBjAuMTAuMZgBAKABAcABAQ&sclient=gws-wiz-serp"
+headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
+data = requests.get(url,headers=headers)
+soup = BeautifulSoup(data.text, 'html.parser')
+weather_type = soup.select_one('span#wob_dc').text
 
 # DB
 from pymongo import MongoClient
@@ -16,10 +23,7 @@ db = client.wywl
 users = db['th_user']
 
 @app.route('/')
-def home():
-    collection_list = db.list_collection_names()
-    print(collection_list)
-
+def home():    
     test = db.th_mood.aggregate([
         { "$lookup":{
             "from" : "tc_mood",
@@ -47,7 +51,9 @@ def home():
             "pipeline":[
                 {"$project":{
                 "_id":0,
+                
                 "mood_nm":0,
+
                 "mood_desc":0
                 } 
                 },
@@ -67,22 +73,12 @@ def home():
         {"$unwind" : "$emojiInfo"},    
 
     ])
-    print("-----------")
     print(list(test2))
-    return render_template('home.html')
+    return render_template('home.html', weather_type = weather_type)
 
 @app.route("/register")
 def go_page_register():
-    # 크롤링
-    url = "https://www.google.com/search?q=current+weather&sxsrf=APwXEdfhnCnLGmLoxPRGIMH-WysBGvihEg%3A1680080103977&ei=5_wjZPOHO_Hg2roP8auhqAo&oq=currweather&gs_lcp=Cgxnd3Mtd2l6LXNlcnAQAxgAMgYIABAHEB4yBggAEAcQHjIGCAAQBxAeMgYIABAHEB4yBggAEAcQHjIGCAAQBxAeMgcIABANEIAEMgYIABAHEB4yBggAEAcQHjIGCAAQBxAeOgoIABBHENYEELADOgoIABCKBRCwAxBDOg8IIxCxAhAnEJ0CEEYQgAJKBAhBGABQui9YwzZg2D5oBXABeACAAY0CiAHhBZIBBTAuMi4ymAEAoAEByAEKwAEB&sclient=gws-wiz-serp"
-    headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36',
-               }
-    data = requests.get(url,headers=headers)
-    soup = BeautifulSoup(data.text, 'html.parser')
-    weather_type = soup.select_one('span#wob_dc').text
-    # 이동
     return render_template('register.html', weather_type = weather_type)
-
 
 @app.route('/chk_nm', methods=["POST"])
 def chk_nm():
@@ -96,9 +92,14 @@ def chk_nm():
     if user is None :
         msg = "사용 가능한 닉네임 입니다."
         chkr = True
+
     else :
         msg = "사용 불가능한 닉네임 입니다."
         chkr = False
+
+    # 저장
+    # user = {'name': name_receive, 'address': address_receive, 'size':size_receive}
+    # db.mars.insert_one(doc)
 
     return jsonify({'msg':msg, 'chkr':chkr})
 
@@ -123,6 +124,12 @@ def go_page_mood():
     # print(user_nm_receive, login_yn_receive)
     return render_template('mood.html')
 
+# @app.route('/mood', methods=['GET'])
+# def gopagemood():
+#     if 'user_nm' in session:
+#         username = session['user_nm']
+#         return render_template('mood.html', user_nm=username)
+
 @app.route('/login')
 def gologinpage():
     return render_template('login.html')
@@ -135,41 +142,22 @@ def login():
     print(password)
     user = users.find_one({'user_nm': username})
 
-
     print(user)
-    if user and user['user_pw']==password:
+    if user and user['user_pw'] == password:
+        session['user_nm'] = username
         return jsonify({'status': 'success', 'message': '로그인 성공'})
     else:
-        return jsonify({'status': 'failure', 'message': '일치하는 데이터가 없습니다.', 'username':username , 'password':password})
+        return jsonify({'status': 'failure', 'message': '일치하는 데이터가 없습니다.', 'username': username, 'password': password})
 
-################## mood ##################
+@app.route('/gogo', methods=['GET'])
+def gogo():
+    if 'user_nm' in session:
+        username = session['user_nm']
+        print(username)
+        return render_template("mood.html")
+    else:
+        return redirect(url_for('gologinpage'))
 
-@app.route('/')
-def goMoodPage():
-    return render_template('mood.html')
 
-@app.route("/mood", methods=["POST"])
-def mood_post():
-    date_receive = request.form['date_give']
-    text_receive = request.form['text_give']
-    user_nm_receive = request.form['user_nm_give']
-    mood_cd_receive = request.form['mood_cd_give']
-
-    doc = {
-        'user_nm' : user_nm_receive,
-        'mood_cd' : mood_cd_receive,
-        'date' : date_receive,
-        'text' : text_receive
-    }
-    db.th_mood.insert_one(doc)
-
-    return jsonify({'msg':'저장완료!'})
-
-# @app.route("/mood", methods=["GET"])
-# def mood_get():
-#     all_mood = list(db.moods.find({},{'_id':False}))
-#     return jsonify({'result': all_mood })
-
-################## mood ##################
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5002, debug=True)

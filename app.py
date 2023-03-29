@@ -65,7 +65,7 @@ def home():
     ])
     print("-----------")
     print(list(test2))
-    return render_template('mood.html')
+    return render_template('home.html')
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5002, debug=True)

@@ -24,8 +24,14 @@ body {
   padding: 0;
   overflow: hidden;
 }
-
-video {
+.logo{
+  width: 45px;
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+video{
   position: absolute;
   z-index: -1;
   width: 100%;

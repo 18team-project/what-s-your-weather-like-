@@ -7,6 +7,12 @@ import requests
 from bs4 import BeautifulSoup
 import time
 
+url = "https://www.google.com/search?q=%ED%98%84%EC%9E%AC+%EB%82%A0%EC%94%A8&sxsrf=APwXEder-3VCFE-cJgu0S-v_teumLWQmJQ%3A1680035186735&ei=ck0jZPjBLJuB2roPtqK7sAU&ved=0ahUKEwj4wo_kuv_9AhWbgFYBHTbRDlYQ4dUDCA8&uact=5&oq=%ED%98%84%EC%9E%AC+%EB%82%A0%EC%94%A8&gs_lcp=Cgxnd3Mtd2l6LXNlcnAQAzIMCCMQJxCdAhBGEIACMgcIABCKBRBDMgcIABCKBRBDMgoIABCABBAUEIcCMgUIABCABDIFCAAQgAQyBQgAEIAEMgQIABAeMgQIABAeMgQIABAeOgQIIxAnOgQIABADOgsIABCABBCxAxCDAToLCC4QgAQQsQMQgwE6EQguEIAEELEDEIMBEMcBENEDOhEILhCDARDHARCxAxDRAxCABDoICAAQgAQQsQM6BQguEIAEOgoILhCKBRDUAhBDSgQIQRgAUABYoAtgtBBoAXABeAGAAYQCiAHMC5IBBjAuMTAuMZgBAKABAcABAQ&sclient=gws-wiz-serp"
+headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
+data = requests.get(url,headers=headers)
+soup = BeautifulSoup(data.text, 'html.parser')
+weather_type = soup.select_one('span#wob_dc').text
+
 # DB
 from pymongo import MongoClient
 import certifi
@@ -17,10 +23,7 @@ db = client.wywl
 users = db['th_user']
 
 @app.route('/')
-def home():
-    collection_list = db.list_collection_names()
-    print(collection_list)
-
+def home():    
     test = db.th_mood.aggregate([
         { "$lookup":{
             "from" : "tc_mood",
@@ -70,23 +73,12 @@ def home():
         {"$unwind" : "$emojiInfo"},    
 
     ])
-    print("-----------")
     print(list(test2))
-    return render_template('home.html')
+    return render_template('home.html', weather_type = weather_type)
 
 @app.route("/register")
 def go_page_register():
-    # 크롤링
-    url = "https://www.google.com/search?q=%ED%98%84%EC%9E%AC+%EB%82%A0%EC%94%A8&sxsrf=APwXEder-3VCFE-cJgu0S-v_teumLWQmJQ%3A1680035186735&ei=ck0jZPjBLJuB2roPtqK7sAU&ved=0ahUKEwj4wo_kuv_9AhWbgFYBHTbRDlYQ4dUDCA8&uact=5&oq=%ED%98%84%EC%9E%AC+%EB%82%A0%EC%94%A8&gs_lcp=Cgxnd3Mtd2l6LXNlcnAQAzIMCCMQJxCdAhBGEIACMgcIABCKBRBDMgcIABCKBRBDMgoIABCABBAUEIcCMgUIABCABDIFCAAQgAQyBQgAEIAEMgQIABAeMgQIABAeMgQIABAeOgQIIxAnOgQIABADOgsIABCABBCxAxCDAToLCC4QgAQQsQMQgwE6EQguEIAEELEDEIMBEMcBENEDOhEILhCDARDHARCxAxDRAxCABDoICAAQgAQQsQM6BQguEIAEOgoILhCKBRDUAhBDSgQIQRgAUABYoAtgtBBoAXABeAGAAYQCiAHMC5IBBjAuMTAuMZgBAKABAcABAQ&sclient=gws-wiz-serp"
-    headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
-    data = requests.get(url,headers=headers)
-    soup = BeautifulSoup(data.text, 'html.parser')
-    weather_type = soup.select_one('span#wob_dc').text
-    print(weather_type)
-
-    # 이동
     return render_template('register.html', weather_type = weather_type)
-
 
 @app.route('/chk_nm', methods=["POST"])
 def chk_nm():

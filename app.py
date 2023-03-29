@@ -6,6 +6,11 @@ import requests
 from bs4 import BeautifulSoup
 import time
 
+# 크롤링
+import requests
+from bs4 import BeautifulSoup
+import time
+
 # DB
 from pymongo import MongoClient
 import certifi
@@ -100,6 +105,10 @@ def chk_nm():
         msg = "사용 불가능한 닉네임 입니다."
         chkr = False
 
+    # 저장
+    # user = {'name': name_receive, 'address': address_receive, 'size':size_receive}
+    # db.mars.insert_one(doc)
+
     return jsonify({'msg':msg, 'chkr':chkr})
 
 
@@ -122,6 +131,12 @@ def go_page_mood():
     # login_yn_receive = request.form['login_yn']
     # print(user_nm_receive, login_yn_receive)
     return render_template('mood.html')
+
+@app.route('/mood', methods=['GET'])
+def gopagemood():
+    if 'user_nm' in session:
+        username = session['user_nm']
+        return render_template('mood.html', user_nm=username)
 
 @app.route('/login')
 def gologinpage():
@@ -171,5 +186,21 @@ def mood_post():
 #     return jsonify({'result': all_mood })
 
 ################## mood ##################
+    print(user)
+    if user and user['user_pw'] == password:
+        session['user_nm'] = username
+        return jsonify({'status': 'success', 'message': '로그인 성공'})
+    else:
+        return jsonify({'status': 'failure', 'message': '일치하는 데이터가 없습니다.', 'username': username, 'password': password})
+
+@app.route('/gogo', methods=['GET'])
+def gogo():
+    if 'user_nm' in session:
+        username = session['user_nm']
+        print(username)
+        return render_template("mood.html")
+    else:
+        return redirect(url_for('gologinpage'))
+
+
 if __name__ == '__main__':
-    app.run('0.0.0.0', port=5002, debug=True)

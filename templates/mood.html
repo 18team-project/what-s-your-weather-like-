@@ -8,8 +8,15 @@
     <title>What's your weather like</title>
     <link rel="stylesheet" href="../static/css/mood.css">
     <script>
-        let curIcon = ''
+        let curIcon = ''                    // 아이콘 변수
+        let w_type = `{{ weather_type }}`   // 날씨 변수
+        let username = sessionStorage.getItem("username"); // 세션 정보
+        let isEmpty = true                                 // 세션 정보 존재 여부
+
         window.onload = function () {
+            get_weather_type(w_type)        // 날씨 배경 적용 함수 호출
+            isEmpty = set_page(username)    // 세션 정보 확인 함수
+
             listing()
             document.getElementById('date').value = new Date().toISOString().substring(0, 10);
             const moodIconArr = document.getElementsByClassName('mood_span')
@@ -32,20 +39,59 @@
             })
         }
 
-        function posting() {
-            let date = document.querySelector('#date').value
-            let text = document.querySelector('#text').value
-            let mood_cd = curIcon
-            let formData = new FormData();
-            formData.append("date_give", date);
-            formData.append("text_give", text);
-            formData.append("mood_cd_give", mood_cd);
-            formData.append("user_nm_give", '최말자');
-
-            fetch('/mood', { method: "POST", body: formData }).then((res) => res.json()).then((data) => {
-                // window.location.reload()
-            })
+        function posting(isEmpty) {
+            // 세션 정보가 비어있지 않으면 포스팅 동작
+            console.log(isEmpty)
+            if(!isEmpty){
+                let date = document.querySelector('#date').value
+                let text = document.querySelector('#text').value
+                let moodIcon = curIcon
+                let formData = new FormData();
+                formData.append("date_give", date);
+                formData.append("comment_give", text);
+                formData.append("moodIcon_give", moodIcon);
+                formData.append("user_nm_give", username);
+                fetch('/mood', { method: "POST", body: formData }).then((res) => res.json()).then((data) => {
+                    console.log(data['msg'])
+                    alert(data['msg'])
+                    // window.location.reload()
+                })
+            } else {
+                alert("로그인 후 이용 가능합니다.")
+            }
         }
+
+        /*
+            날씨 가져오기 함수. 날씨값에 따라 화면 변경
+        */
+        function get_weather_type(weather_type) {
+            let w_type = weather_type;
+            if (w_type.includes('맑음')) {
+                document.getElementById("b_viedo").setAttribute('src', "../static/video/weather/w_sunny.mp4")
+            } else if (w_type.includes('흐림') || w_type.includes('구름') || w_type.includes('흐리고') || w_type.includes('흐린')) {
+                document.getElementById("b_viedo").setAttribute('src', "../static/video/weather/w_partly_cloudy.mp4")
+            } else if (w_type.includes('비') || w_type.includes('소나기') || w_type.includes('강우') || w_type.includes('뇌우')) {
+                document.getElementById("b_viedo").setAttribute('src', "../static/video/weather/w_rain_train.mp4")
+            } else {
+                document.getElementById("b_viedo").setAttribute('src', "../static/video/ocean.mp4")
+            }
+        }
+
+        /*
+            세션 정보에 따라 화면 세팅 변경 함수. 세션 정보가 있으면 저장가능, 아니면 불가.
+         */
+        function set_page(username) {
+            let isEmpty = true
+            if (username == "" || username == null || username == undefined || (username != null && typeof username == "object" && !Object.keys(username).length)) {
+                console.log("############ 세션 없음")
+                isEmpty = true
+            } else {
+                console.log("############ 세션 있음")
+                isEmpty = false
+            }
+            return isEmpty
+        }
+
     </script>
 </head>
 
@@ -53,17 +99,18 @@
     <!-- common/layout.html -->
     {% extends "common/layout.html" %}
     {% block content %}
+    <video src="../static/video/ocean.mp4" autoplay loop muted class="b_video" id="b_viedo"></video>
     <!-- home.html -->
     <div class="container">
         <div class="main_wrap">
             <h2>지금 당신의 기분은?</h2>
 
             <div class="mood_box">
-                <span data-value="m01" class="mood_span">😀</span>
-                <span data-value="m02" class="mood_span">😆</span>
-                <span data-value="m03" class="mood_span">😫</span>
-                <span data-value="m04" class="mood_span">😕</span>
-                <span data-value="m05" class="mood_span">🤬</span>
+                <span class="mood_span">😀</span>
+                <span class="mood_span">😆</span>
+                <span class="mood_span">😫</span>
+                <span class="mood_span">😕</span>
+                <span class="mood_span">🤬</span>
             </div>
 
             <label for="date" class="date_Wrap">

@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>What's your weather like</title>
+    <link rel="stylesheet" href="../static/css/register.css">
     <script>
         // 닉네임 사용 가능 여부
         let chkr = false
@@ -128,68 +129,6 @@
 
 
     </script>
-    <style>
-        @font-face {
-            font-family: 'yleeMortalHeartImmortalMemory';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2205@1.0/yleeMortalHeartImmortalMemory.woff2') format('woff2');
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        .header_layout h1 {
-            font-family: 'yleeMortalHeartImmortalMemory';
-            font-weight: 900;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-        }
-
-        html,
-        body {
-            width: 100%;
-            height: 100vh;
-        }
-
-        .p_alert {
-            position: absolute;
-            border-radius: 7px;
-            margin: auto 0;
-            padding: 6px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .b_video {
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            height: 100%;
-            width: 100%;
-            object-fit: cover;
-        }
-
-        .wrap_content {
-            background: rgba(0, 0, 0, 0.5);
-            color: #f1f1f1;
-            width: 500px;
-            padding: 20px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        input {
-            height: 30px;
-            border: 1px solid #8c8c8c;
-            border-radius: 2px;
-            padding: 10px;
-            font-size: 12px;
-        }
-    </style>
 </head>
 
 <body>
@@ -198,15 +137,17 @@
     <video src="../static/video/ocean.mp4" autoplay loop muted class="b_video" id="b_viedo"></video>
 
     <div class="wrap_content">
-        <h2>당신의 날씨를 기록하세요!</h2>
-        <h2>sign up</h2>
-        <span>* 표시된 항목은 필수 입력입니다.</span>
-        <div class="register-info">
+        <h2 class="fir_title">당신의 날씨를 기록하세요!</h2>
+        
+        <h2 class="sec_title">sign up</h2>
 
+        <span class="guide">* 표시된 항목은 필수 입력입니다.</span>
+
+        <div class="register-info">
             <div class="input-group">
-                <div class="input_group_row">
-                    * <input id="user_nm" type="text" class="form-control" pattern="^[ㄱ-ㅎㅏ-ㅣ가-힣]*$" requiredplaceholder
-                        placeholder="닉네임" /> *
+                <div class="input_group_row1">
+                    <span class="star1">* </span><input id="user_nm" type="text" class="form-control" pattern="^[ㄱ-ㅎㅏ-ㅣ가-힣]*$" requiredplaceholder
+                        placeholder="닉네임" />
                     <button onclick="chk_nm()" type="button" id="chk_nm_btn" disabled="disabled"
                         class="regist_btn">확인하기</button>
                 </div>
@@ -214,10 +155,10 @@
             <div class="input-group-result_text input-group-nm-result"></div>
         </div>
         <div class="input-group">
-            <div class="input_group_row">
-                * <input id="user_pw" type="password" class="form-control" oninput="confirm_pw()" required
+            <div class="input_group_row2">
+                <span class="star2">* </span><input id="user_pw" type="password" class="form-control" oninput="confirm_pw()" required
                     placeholder="비밀번호" />
-                * <input id="confirm_pw" type="password" class="form-control" oninput="confirm_pw()" required
+                    <span class="star3">* </span><input id="confirm_pw" type="password" class="form-control" oninput="confirm_pw()" required
                     placeholder="비밀번호 확인" />
             </div>
             <div class="input-group-result_text input-group-confirm"></div>

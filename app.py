@@ -150,6 +150,34 @@ def login():
     else:
         return jsonify({'status': 'failure', 'message': '일치하는 데이터가 없습니다.', 'username':username , 'password':password})
 
+################## mood ##################
 
+@app.route('/')
+def goMoodPage():
+    return render_template('mood.html')
+
+@app.route("/mood", methods=["POST"])
+def mood_post():
+    date_receive = request.form['date_give']
+    text_receive = request.form['text_give']
+    user_nm_receive = request.form['user_nm_give']
+    mood_cd_receive = request.form['mood_cd_give']
+
+    doc = {
+        'user_nm' : user_nm_receive,
+        'mood_cd' : mood_cd_receive,
+        'date' : date_receive,
+        'text' : text_receive
+    }
+    db.th_mood.insert_one(doc)
+
+    return jsonify({'msg':'저장완료!'})
+
+# @app.route("/mood", methods=["GET"])
+# def mood_get():
+#     all_mood = list(db.moods.find({},{'_id':False}))
+#     return jsonify({'result': all_mood })
+
+################## mood ##################
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5002, debug=True)

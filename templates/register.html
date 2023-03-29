@@ -1,173 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>What's your weather like</title>
-    <script>
-        // 닉네임 사용 가능 여부
-        let chkr = false
-        // 비밀번호 일치 여부
-        let chpw = false
-
-        window.onload = function () {
-           
-            let nm_input = document.getElementById("user_nm");
-            nm_input.addEventListener("input", function (event) {
-                if (event.inputType == "deleteContentBackward") {
-                    if (nm_input.value == "") {
-                        document.getElementsByClassName('input-group-nm-result')[0].innerHTML = ""
-                        document.getElementById('chk_nm_btn').setAttribute("disabled", "disabled");
-                        chkr = false
-                    }
-                } else {
-                    // 입력된 값이 특정 패턴과 일치하지 않으면 제거
-                    const regex = /^[ㄱ-ㅎㅏ-ㅣ가-힣]*$/
-                    if (!regex.test(nm_input.value)) {
-                        nm_input.value = nm_input.value.replace(/[^ㄱ-ㅎㅏ-ㅣ가-힣]/g, "")
-                    } else {
-                        document.getElementsByClassName('input-group-nm-result')[0].innerHTML = "중복검사를 해주세요~"
-                        document.getElementById('chk_nm_btn').removeAttribute("disabled");
-                        chkr = false
-                    }
-                }
-            })
-        }
-
-        
-        function get_weather(){
-        fetch("https://api.openweathermap.org/data/2.5/forecast?lat=37.54&lon=126.98&lang=kr&appid=928b234bcf2b94773a3cab78edd5058b").then((res) => res.json()).then((data) => {
-			// 현재 서울 날씨  
-            console.log(data)
-      
-          });
-        }
-        
-        /* 
-        닉네임 중복체크
-         */
-        function chk_nm() {
-            let formData = new FormData()
-            let user_nm_input = document.getElementById('user_nm')
-            formData.append("user_nm", user_nm_input.value)
-            fetch('/chk_nm', { method: "POST", body: formData }).then((res) => res.json()).then((data) => {
-                // 사용가능 여부 확인
-                chkr = data["chkr"]
-                if (chkr) {
-                    document.getElementsByClassName('input-group-nm-result')[0].innerHTML = data["msg"]
-                    document.getElementById('chk_nm_btn').setAttribute("disabled", "disabled");
-                    user_nm_input.addEventListener("keyup", function () {
-                        chkr = false
-                        document.getElementsByClassName('input-group-nm-result')[0].innerHTML = "중복검사를 해주세요."
-                        document.getElementById('chk_nm_btn').removeAttribute("disabled");
-                    })
-                } else {
-                    document.getElementsByClassName('input-group-nm-result')[0].innerHTML = data["msg"]
-                    user_nm_input.addEventListener("keyup", function () {
-                        chkr = false
-                        document.getElementsByClassName('input-group-nm-result')[0].innerHTML = "중복검사를 해주세요."
-                        document.getElementById('chk_nm_btn').removeAttribute("disabled");
-                    })
-                }
-            })
-        }
-
-        /* 
-        비밀번호 일치 확인
-         */
-        function confirm_pw() {
-            let password = document.getElementById("user_pw");
-            let confirmPassword = document.getElementById("confirm_pw");
-            chpw = false
-            if (password.value !== confirmPassword.value) {
-                document.getElementsByClassName('input-group-confirm')[0].innerHTML = "비밀번호가 일치하지 않습니다."
-                document.getElementById('sign_up_btn').setAttribute("disabled", "disabled");
-                chpw = false
-            } else {
-                document.getElementsByClassName('input-group-confirm')[0].innerHTML = "비밀번호가 일치합니다."
-                document.getElementById('sign_up_btn').removeAttribute("disabled");
-                chpw = true
-            }
-        }
-
-        /* 회원가입
-         */
-        function sign_up() {
-            if (chkr && chpw) {
-                let formData = new FormData()
-                let user_nm = document.getElementById("user_nm").value
-                let user_pw = document.getElementById("user_pw").value
-                formData.append("user_nm", user_nm)
-                formData.append("user_pw", user_pw)
-
-                fetch('/register', { method: "POST", body: formData }).then((res) => res.json()).then((data) => {
-                    document.getElementById("msg_p_alert").innerText = data["msg"]
-                    document.getElementById("msg_p_alert").parentElement.style.display = "block"
-                    document.getElementById("msg_p_alert").parentElement.style.display = "block"
-                    document.getElementById("btn_p_alert").addEventListener("click", function () {
-                        window.location.href = '/mood'
-                    })
-
-                })
-            } else {
-                document.getElementById("user_nm").focus()
-            }
-
-        }
-    </script>
-    <style>
-        .p_alert {
-            position: absolute;
-            border-radius: 7px;
-            margin: auto 0;
-            padding: 6px;
-            top: 50%;
-            left: 50%;
-        }
-    </style>
 </head>
-
 <body>
     <!-- common/layout.html -->
     {% extends "common/layout.html" %}
     {% block content %}
     <!-- home.html -->
     <div>
-        <h2>당신의 날씨를 기록하세요!</h2>
-        <h3>{{ weather_type }}</h3>
-        <h2>sign up</h2>
-        <span>* 표시된 항목은 필수 입력입니다.</span>
-    </div>
-
-    <div class="register-info">
-        <div class="input-group">
-            <span class="input-group-text">닉네임 * </span>
-            <input id="user_nm" type="text" class="form-control" pattern="^[ㄱ-ㅎㅏ-ㅣ가-힣]*$" required />
-            <button onclick="chk_nm()" type="button" id="chk_nm_btn" disabled="disabled" class="regist_btn">
-                확인하기
-            </button>
-            <div class="input-group-result_text input-group-nm-result"></div>
-        </div>
-        <div class="input-group">
-            <div>
-                <span class="input-group-text">비밀번호 * </span>
-                <input id="user_pw" type="password" class="form-control" oninput="confirm_pw()" required />
-            </div>
-            <div>
-                <span class="input-group-text">비밀번호 확인 * </span>
-                <input id="confirm_pw" type="password" class="form-control" oninput="confirm_pw()" required />
-            </div>
-            <div class="input-group-result_text input-group-confirm"></div>
-        </div>
-
-        <button onclick="sign_up()" id="sign_up_btn" type="button" disabled="disabled" class="regist_btn">
-            회원 가입하기
-        </button>
-    </div>
-    {% include "common/popup_test.html" ignore missing %}
+        <h2>해당 페이지의 내용입니다!!!!@@@</h2>
+    </div>  
+    {% include "common/pop.html"  ignore missing %}
     {% endblock %}
 </body>
-
 </html>

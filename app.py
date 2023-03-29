@@ -13,6 +13,7 @@ ca = certifi.where()
 
 client = MongoClient('mongodb+srv://root:root@wywl.xvagz18.mongodb.net/?retryWrites=true&w=majority', tlsCAFile=ca)
 db = client.wywl
+users = db['th_user']
 
 @app.route('/')
 def home():
@@ -129,6 +130,25 @@ def go_page_mood():
     # login_yn_receive = request.form['login_yn']
     # print(user_nm_receive, login_yn_receive)
     return render_template('mood.html')
+
+@app.route('/login')
+def gologinpage():
+    return render_template('login.html')
+
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.json['user_nm']
+    password = request.json['user_pw']
+    print(username)
+    print(password)
+    user = users.find_one({'user_nm': username})
+
+
+    print(user)
+    if user and user['user_pw']==password:
+        return jsonify({'status': 'success', 'message': '로그인 성공'})
+    else:
+        return jsonify({'status': 'failure', 'message': '일치하는 데이터가 없습니다.', 'username':username , 'password':password})
 
 
 if __name__ == '__main__':

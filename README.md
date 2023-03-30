@@ -99,7 +99,8 @@
 
 ## 구현 화면
 <p align="center">
-<img src="https://user-images.githubusercontent.com/58963027/228920210-5efafdb8-d303-4d4c-a333-dade7dcacd0e.gif"></img>
+<img  style="height:262px; margin:10px;" src="https://user-images.githubusercontent.com/58963027/228920210-5efafdb8-d303-4d4c-a333-dade7dcacd0e.gif"></img>
+<img style="width:480px; hight:277px; margin:10px;" src="https://user-images.githubusercontent.com/58963027/228920999-85209f79-ea54-42a4-b413-c144c984055d.gif"></img>
 </p>
 
 

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What's your weather like</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="../static/css/mypage.css">
+  <script>
+    // 날씨 변수
+    let w_type = `{{ weather_type }}`
+    // 세션 정보
+    let username = sessionStorage.getItem("username");
+    
+    window.onload = function () {
+      // 날씨 가져오기 함수 호출
+      get_weather_type(w_type)
+
+      // 세션 정보에 따라 화면 세팅 변경 함수 호출
+      set_page(username)
+
+      // showMyCard();
+    }
+
+    /*
+      날씨 가져오기 함수. 날씨값에 따라 화면 변경
+    */
+    function get_weather_type(weather_type) {
+      let w_type = weather_type;
+      if (w_type.includes('맑음')) {
+        document.getElementById("b_viedo").setAttribute('src', "../static/video/weather/w_mostly_sunny.mp4")
+      } else if (w_type.includes('흐림') || w_type.includes('구름') || w_type.includes('흐리고') || w_type.includes('흐린')) {
+        document.getElementById("b_viedo").setAttribute('src', "../static/video/weather/w_partly_cloudy.mp4")
+      } else if (w_type.includes('비') || w_type.includes('소나기') || w_type.includes('강우') || w_type.includes('뇌우')) {
+        document.getElementById("b_viedo").setAttribute('src', "../static/video/weather/w_rain_train.mp4")
+      } else {
+        document.getElementById("b_viedo").setAttribute('src', "../static/video/ocean.mp4")
+      }
+    }
+
+    /*
+      세션 정보에 따라 화면 세팅 변경 함수. 세션 정보가 있으면 조회, 없으면 메인페이지 역할.
+    */
+    function set_page(username){
+      let isEmpty = true
+      if (username == "" || username == null || username == undefined || (username != null && typeof username == "object" && !Object.keys(username).length)) {
+        console.log("############ 세션 없음")
+        isEmpty =  true
+      } else {
+        console.log("############ 세션 있음")
+        isEmpty = false
+      }
+      if(!isEmpty){
+        // 세션정보 존재. 로그인 상태
+        // 로그아웃 버튼
+        document.getElementById('btn_sign').innerHTML = "Log out"
+        document.getElementById('btn_sign').addEventListener("click",()=>{
+          sessionStorage.removeItem("username")
+          location.reload(true)
+        })
+        // 데이터 조회
+      }
+    }
+
+    // function showMyCard() {
+    //   fetch('/th_mood').then(res => res.json()).then(data => {
+    //     let rows = data['result']
+    //     $('#bucket-list').empty()
+    //     rows.forEach((a) => {
+    //       let bucket = a['bucket']
+    //       let temp_html = `<li><h2>✅${bucket}</h2></li>`
+    //       $('#bucket-list').append(temp_html)
+    //     })
+    //   })
+    // }
+  </script>
+</head>
+
+<body>
+  <!-- home.html -->
+  <video src="../static/video/home.mp4" autoplay loop muted id="b_viedo"></video>
+  <img src="../static/img/logo.svg" alt="logo" class="logo">
+  <h1 class="title">What's your weather like?</h1>
+  <div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <h2 class="card_date">23년 03월 05일</h2>
+        <p class="card_name">도우너 님의 날씨</p>
+        <h3 class="card_weather">맑음</h3>
+        <p class="card_text">오늘은 미세먼지도 없고 날이 너무좋아 산책을하니 기분이 좋다</p>
+        <span class="card_icon">😀</span>
+      </div>
+
+      <div class="swiper-slide last">
+        <a href="#">
+          <img src="../static/img/plus-solid.svg" alt="">
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <button id="btn_sign">Sign in</button>
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+  <!-- Initialize Swiper -->
+  <script>
+    var swiper = new Swiper(".mySwiper", {
+      effect: "coverflow",
+      grabCursor: true,
+      centeredSlides: true,
+      slidesPerView: "auto",
+      coverflowEffect: {
+        rotate: 50,
+        stretch: 0,
+        depth: 100,
+        modifier: 1,
+        slideShadows: true,
+      },
+    });
+  </script>
+</body>
+
+</html>

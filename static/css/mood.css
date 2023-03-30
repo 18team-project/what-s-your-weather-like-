@@ -1,3 +1,11 @@
+/* 헤더 폰트 페이스 추가 */
+@font-face {
+  font-family: 'yleeMortalHeartImmortalMemory';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2205@1.0/yleeMortalHeartImmortalMemory.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
 @font-face {
   font-family: 'GmarketSansMedium';
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
@@ -10,9 +18,31 @@
   font-family: 'GmarketSansMedium';
   box-sizing: border-box;
 }
+
+/* 헤더 폰트 적용 */
+.header_layout h1 {
+  font-family: 'yleeMortalHeartImmortalMemory';
+  font-weight: 900;
+}
+
+/* 비디오 태그 화면에 가득 채우기 위해 추가. */
+.b_video {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* TODO 가운데 정렬 하기 위해 아래 추가 - 희제님..가운데가 잘 안되여.. */
 .container{
-  height: 830px;
-  padding-top: 100px;
+  /* height: 830px;
+  padding-top: 100px; */
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  left: 50%;
 }
 .main_wrap{
   width: 500px;

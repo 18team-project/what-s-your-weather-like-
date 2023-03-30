@@ -23,18 +23,30 @@
 
 ```
 ## 구현 기능
-####API
-***
-기능
-***
-무드등록
-***
-나의 무드 조회
-***
-로그인
-***
-회원가입
-***
+-무드등록
+  - method : get
+  - url : 
+  - 담당 : 신주영
+
+-나의 무드 조회
+  - method : post
+  - url : /mood
+  - 담당 : 신희제, 신주영, 박하은
+ 
+-로그인
+  - method : post
+  - url : /login
+  - 담당 : 박하은
+ 
+-회원가입
+  - method : post
+  - url : /register
+  - 담당 : 신주영
+  
+-무드 삭제
+  - method : post
+  - url : /delete
+  - 담당 : 박하은
 
 ### 로그인
 ### 회원가입

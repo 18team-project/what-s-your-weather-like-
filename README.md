@@ -6,14 +6,14 @@
 실시간 현재 날씨 정보를 가져와서 배경으로 나타낸다.
 ```
 ## 기술스택
-<div style="text-align:center;">
-<img src="https://simpleicons.org/icons/python.svg" style="width:120px; height: 120px;"></img>
-<img src="https://simpleicons.org/icons/flask.svg" style="width:120px; height: 120px;"></img>
-<img src="https://simpleicons.org/icons/mongodb.svg" style="width:120px; height: 120px;"></img>
-<img src="https://simpleicons.org/icons/html5.svg" style="width:120px; height: 120px;"></img>
-<img src="https://simpleicons.org/icons/css3.svg" style="width:120px; height: 120px;"></img>
-<img src="https://simpleicons.org/icons/javascript.svg" style="width:120px; height: 120px;"></img>
-</div>
+
+<img src="https://simpleicons.org/icons/python.svg" style="width:120px; height: 120px; margin:3px;"></img>
+<img src="https://simpleicons.org/icons/flask.svg" style="width:120px; height: 120px; margin:3px;"></img>
+<img src="https://simpleicons.org/icons/mongodb.svg" style="width:120px; height: 120px; margin:3px;"></img>
+<img src="https://simpleicons.org/icons/html5.svg" style="width:120px; height: 120px; margin:3px;"></img>
+<img src="https://simpleicons.org/icons/css3.svg" style="width:120px; height: 120px; margin:3px;"></img>
+<img src="https://simpleicons.org/icons/javascript.svg" style="width:120px; height: 120px; margin:3px;"></img>
+
 <br>
 <br>
 <strong>#pythonㅤㅤ#flaskㅤㅤ#mongodbㅤㅤ#html5ㅤㅤ#css3ㅤㅤ#javascript</strong>

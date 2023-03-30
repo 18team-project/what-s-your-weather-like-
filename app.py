@@ -20,6 +20,7 @@ ca = certifi.where()
 
 client = MongoClient('mongodb+srv://root:root@wywl.xvagz18.mongodb.net/?retryWrites=true&w=majority', tlsCAFile=ca)
 db = client.wywl
+moods = db['th_mood']
 users = db['th_user']
 
 @app.route('/')
@@ -97,13 +98,9 @@ def chk_nm():
         msg = "사용 불가능한 닉네임 입니다."
         chkr = False
 
-    # 저장
-    # user = {'name': name_receive, 'address': address_receive, 'size':size_receive}
-    # db.mars.insert_one(doc)
-
     return jsonify({'msg':msg, 'chkr':chkr})
 
-
+#### 회원등록
 @app.route('/register', methods=["POST"])
 def register_sign_up():
     # 데이터받기
@@ -116,13 +113,28 @@ def register_sign_up():
     db.th_user.insert_one(user)
     return jsonify({'msg':'회원가입이 완료되었습니다.\n 당신의 날씨를 꾸준히 기록해주세요!'})
 
+#### mood, mood 등록
 @app.route("/mood")
 def go_page_mood():
     # 이동
-    # user_nm_receive = request.form['user_nm']
-    # login_yn_receive = request.form['login_yn']
-    # print(user_nm_receive, login_yn_receive)
-    return render_template('mood.html')
+    return render_template('mood.html', weather_type = weather_type)
+
+@app.route("/mood", methods=['POST'])
+def mood():
+    # 저장
+    user_nm = request.form['user_nm_give']
+    comment = request.form['comment_give']
+    mood_icon = request.form['moodIcon_give']
+    date = request.form['date_give']
+    print(user_nm, comment, mood_icon, date)
+    mood = {'user_nm' : user_nm,
+            'comment': comment, 
+            'mood_icon': mood_icon,
+            'date' : date
+            }
+    moods.insert_one(mood)
+    return jsonify({'msg': '당신의 날씨를 등록 했습니다.'})
+
 
 # @app.route('/mood', methods=['GET'])
 # def gopagemood():

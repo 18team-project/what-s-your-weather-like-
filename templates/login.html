@@ -13,21 +13,23 @@
 			font-weight: normal;
 			font-style: normal;
 		}
-		.header_layout{
-			
-		}
+
+		.header_layout {}
+
 		.header_layout h1 {
 			font-family: 'yleeMortalHeartImmortalMemory';
 			font-weight: 900;
 			position: absolute;
 			top: 0;
 		}
-		.footer{
+
+		.footer {
 			position: absolute;
 			top: 0;
 			left: 50%;
 			transform: translateX(-55%);
 		}
+
 		body {
 			margin: 0;
 			padding: 0;
@@ -165,6 +167,7 @@
 				.then(response => response.json())
 				.then(data => {
 					if (data.status === 'success') {
+						sessionStorage.setItem("username", username);
 						window.location.href = '/mood';
 					} else {
 						console.log(data.message);
@@ -177,7 +180,20 @@
 		}
 		function goToSignUp() {
 			window.location.href = "signup.html"; // 회원가입 페이지로 이동
-		}	
+		}
+
+		// 로그인 성공 후 돌아오는 페이지를 저장
+		sessionStorage.setItem("returnUrl", "/mood");
+
+		// 로그인 성공 시 돌아올 페이지로 리다이렉트
+		function onLoginSuccess() {
+			const returnUrl = sessionStorage.getItem("returnUrl");
+			if (returnUrl) {
+				window.location.href = returnUrl;
+			} else {
+				window.location.href = "/"; // 기본 리다이렉트 페이지
+			}
+		}
 	</script>
 
 </head>

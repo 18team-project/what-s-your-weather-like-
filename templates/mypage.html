@@ -8,6 +8,7 @@
   <title>What's your weather like</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
   <link rel="stylesheet" href="../static/css/mypage.css">
+  <link rel="icon" href="../static/img/wywl_logs.png">
   <script>
     // 날씨 변수
     let w_type = `{{ weather_type }}`
@@ -22,6 +23,7 @@
       set_page(username)
 
       showMyCard();
+      document.getElementById('goHome').setAttribute('href', '/mypage');
     }
 
     /*
@@ -46,10 +48,8 @@
     function set_page(username) {
       let isEmpty = true
       if (username == "" || username == null || username == undefined || (username != null && typeof username == "object" && !Object.keys(username).length)) {
-        console.log("############ 세션 없음")
         isEmpty = true
       } else {
-        console.log("############ 세션 있음")
         isEmpty = false
       }
       if (!isEmpty) {
@@ -170,7 +170,7 @@
     <div class="swiper-wrapper">
 
       <div class="swiper-slide last">
-        <a href="#">
+        <a href="mood">
           <img src="../static/img/plus-solid.svg" alt="">
         </a>
       </div>

@@ -23,6 +23,13 @@
   font-weight: 900;
 }
 
+.header_layout a {
+  font-family: 'yleeMortalHeartImmortalMemory'!important;
+  font-weight: 900;
+  color: #000;
+}
+
+
 html,
 body {
   width: 100%;

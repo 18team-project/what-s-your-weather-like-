@@ -54,8 +54,8 @@
       if(!isEmpty){
         // 세션정보 존재. 로그인 상태
         // 로그아웃 버튼
-        document.getElementById('btn_sign').innerHTML = "Log out"
-        document.getElementById('btn_sign').addEventListener("click",()=>{
+        document.getElementById('signin-link').innerHTML = "Log out"
+        document.getElementById('signin-link').addEventListener("click",()=>{
           sessionStorage.removeItem("username")
           location.reload(true)
         })
@@ -107,7 +107,6 @@
   </div>
 
   <a href="login" id="signin-link"><button>Sign in</button></a>
-  <button id="btn_sign">Sign in</button>
   <!-- Swiper JS -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 

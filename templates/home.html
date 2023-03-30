@@ -13,15 +13,15 @@
     let w_type = `{{ weather_type }}`
     // 세션 정보
     let username = sessionStorage.getItem("username");
-   
-    window.onload = function () {
-      // 날씨
-      // 날씨 가져오기 함수 호출
-      get_weather_type(w_type)
 
-      // 세션 정보에 따라 화면 세팅 변경 함수 호출
-      set_page(username)
-    }
+    window.onload = function () {
+  // 날씨
+  // 날씨 가져오기 함수 호출
+  get_weather_type(w_type)
+
+  // 세션 정보에 따라 화면 세팅 변경 함수 호출
+  set_page(username);
+}
 
     /*
       날씨 가져오기 함수. 날씨값에 따라 화면 변경
@@ -39,29 +39,30 @@
       }
     }
 
-    /*
-      세션 정보에 따라 화면 세팅 변경 함수. 세션 정보가 있으면 조회, 없으면 메인페이지 역할.
-    */
-    function set_page(username){
-      let isEmpty = true
-      if (username == "" || username == null || username == undefined || (username != null && typeof username == "object" && !Object.keys(username).length)) {
-        console.log("############ 세션 없음")
-        isEmpty =  true
-      } else {
-        console.log("############ 세션 있음")
-        isEmpty = false
-      }
-      if(!isEmpty){
-        // 세션정보 존재. 로그인 상태
-        // 로그아웃 버튼
-        document.getElementById('signin-link').innerHTML = "Log out"
-        document.getElementById('signin-link').addEventListener("click",()=>{
-          sessionStorage.removeItem("username")
-          location.reload(true)
-        })
-        // 데이터 조회
-      }
-    }
+    // /*
+    //   세션 정보에 따라 화면 세팅 변경 함수. 세션 정보가 있으면 조회, 없으면 메인페이지 역할.
+    // */
+    // function set_page(username){
+    //   let isEmpty = true
+    //   if (username == "" || username == null || username == undefined || (username != null && typeof username == "object" && !Object.keys(username).length)) {
+    //     console.log("############ 세션 없음")
+    //     isEmpty =  true
+    //   } else {
+    //     console.log("############ 세션 있음")
+    //     isEmpty = false
+    //   }
+    //   if(!isEmpty){
+    //     // 세션정보 존재. 로그인 상태
+    //     // 로그아웃 버튼
+    //     document.getElementById('signin-link').innerHTML = "Log out"
+    //     document.getElementById('signin-link').addEventListener("click",()=>{
+    //       sessionStorage.removeItem("username")
+    //       location.reload(true)
+    //     })
+    //     // 데이터 조회
+    //   }
+    // }
+
 
 
   </script>
@@ -98,8 +99,8 @@
         <span>😀</span>
       </div>
 
-      <div class="swiper-slide last">
-        <a href="#">
+      <div class="swiper-slide last" id="last-slide">
+        <a href="mood">
           <img src="../static/img/plus-solid.svg" alt="">
         </a>
       </div>

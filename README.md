@@ -23,23 +23,23 @@
 
 ## 프로젝트 구조
 ```bash
-├── static
-│   ├── css
-│   ├── img
-│   ├── js
-│   └── video
-├── templates
-│   └── common
-│       ├── delete.html
-│       ├── layout.html
-│       ├── pop.html
-│       └── popup.html
-│   ├── home.html
-│   ├── login.html
-│   ├── mood.html
-│   ├── mypage.html
-│   └── register.html
-└── app.py
+├── 📂 static
+│   ├── 📁 css
+│   ├── 📁 img
+│   ├── 📁 js
+│   └── 📁 video
+├── 📂 templates
+│   ├── 📂 common
+│   │   ├── 📄delete.html
+│   │   ├── 📄layout.html
+│   │   ├── 📄pop.html
+│   │   └── 📄popup.html
+│   ├── 📄home.html
+│   ├── 📄login.html
+│   ├── 📄mood.html
+│   ├── 📄mypage.html
+│   └── 📄register.html
+└── 🏃app.py
 
 ```
 ## 구현 내용

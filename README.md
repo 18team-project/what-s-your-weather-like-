@@ -7,13 +7,14 @@
 ```
 ## 기술스택
 
+<p align="center">
 <img src="https://simpleicons.org/icons/python.svg" style="width:120px; height: 120px; margin:3px;"></img>
 <img src="https://simpleicons.org/icons/flask.svg" style="width:120px; height: 120px; margin:3px;"></img>
 <img src="https://simpleicons.org/icons/mongodb.svg" style="width:120px; height: 120px; margin:3px;"></img>
 <img src="https://simpleicons.org/icons/html5.svg" style="width:120px; height: 120px; margin:3px;"></img>
 <img src="https://simpleicons.org/icons/css3.svg" style="width:120px; height: 120px; margin:3px;"></img>
 <img src="https://simpleicons.org/icons/javascript.svg" style="width:120px; height: 120px; margin:3px;"></img>
-
+</p>
 <br>
 <br>
 <strong>#pythonㅤㅤ#flaskㅤㅤ#mongodbㅤㅤ#html5ㅤㅤ#css3ㅤㅤ#javascript</strong>

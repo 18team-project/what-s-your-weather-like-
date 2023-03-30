@@ -1,5 +1,22 @@
 # What's your weather like?
 ## 프로젝트 개요
+```
+항해 14기, 토이프로젝트
+감정을 날씨에 비유, 본인의 감정을 기록하고 추적할 수 있는 형태의 게시판 구현
+실시간 현재 날씨 정보를 가져와서 배경으로 나타낸다.
+```
+## 기술스택
+<img src="https://simpleicons.org/icons/python.svg" style="width:150px; height: 150px;"></img>
+<img src="https://simpleicons.org/icons/flask.svg" style="width:150px; height: 150px;"></img>
+<img src="https://simpleicons.org/icons/mongodb.svg" style="width:150px; height: 150px;"></img>
+<img src="https://simpleicons.org/icons/html5.svg" style="width:150px; height: 150px;"></img>
+<img src="https://simpleicons.org/icons/css3.svg" style="width:150px; height: 150px;"></img>
+<img src="https://simpleicons.org/icons/javascript.svg" style="width:150px; height: 150px;"></img>
+<br>
+<br>
+<strong>#pythonㅤㅤ#flaskㅤㅤ#mongodbㅤㅤ#html5ㅤㅤ#css3ㅤㅤ#javascript</strong>
+
+
 
 ## 프로젝트 구조
 ```bash
@@ -26,7 +43,7 @@
 -무드등록
   - method : get
   - url : 
-  - 담당 : 신주영
+  - 담당 : 신희제, 신주영
 
 -나의 무드 조회
   - method : post
@@ -48,6 +65,10 @@
   - url : /delete
   - 담당 : 박하은
 
+-실시간 날씨 정보
+  - method : 
+  - url : 
+  - 담당 : 신주영
 
 ## API 설계
 | Aa기능 | method | request | 담당 |

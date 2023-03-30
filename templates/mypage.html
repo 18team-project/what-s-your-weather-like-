@@ -13,7 +13,7 @@
     let w_type = `{{ weather_type }}`
     // 세션 정보
     let username = sessionStorage.getItem("username");
-    
+
     window.onload = function () {
       // 날씨 가져오기 함수 호출
       get_weather_type(w_type)
@@ -21,7 +21,7 @@
       // 세션 정보에 따라 화면 세팅 변경 함수 호출
       set_page(username)
 
-      // showMyCard();
+      showMyCard();
     }
 
     /*
@@ -43,38 +43,121 @@
     /*
       세션 정보에 따라 화면 세팅 변경 함수. 세션 정보가 있으면 조회, 없으면 메인페이지 역할.
     */
-    function set_page(username){
+    function set_page(username) {
       let isEmpty = true
       if (username == "" || username == null || username == undefined || (username != null && typeof username == "object" && !Object.keys(username).length)) {
         console.log("############ 세션 없음")
-        isEmpty =  true
+        isEmpty = true
       } else {
         console.log("############ 세션 있음")
         isEmpty = false
       }
-      if(!isEmpty){
+      if (!isEmpty) {
         // 세션정보 존재. 로그인 상태
         // 로그아웃 버튼
         document.getElementById('btn_sign').innerHTML = "Log out"
-        document.getElementById('btn_sign').addEventListener("click",()=>{
+        document.getElementById('btn_sign').addEventListener("click", () => {
           sessionStorage.removeItem("username")
           location.reload(true)
         })
         // 데이터 조회
       }
     }
-
-    // function showMyCard() {
-    //   fetch('/th_mood').then(res => res.json()).then(data => {
-    //     let rows = data['result']
-    //     $('#bucket-list').empty()
-    //     rows.forEach((a) => {
-    //       let bucket = a['bucket']
-    //       let temp_html = `<li><h2>✅${bucket}</h2></li>`
-    //       $('#bucket-list').append(temp_html)
-    //     })
+    // function deleteMyCard(id) {
+    //   let formData = new FormData();
+    //   console.log(typeof(id))
+    //   formData.append("cardId", id);
+    //   fetch('/delete', { method: "POST", body: formData }).then(res => res.json()).then(data => {
+    //     window.location.reload()
     //   })
+    //   // window.location.reload()
     // }
+    function showMyCard() {
+      const swiperContainer = document.querySelector('.swiper-wrapper')
+
+      let formData = new FormData();
+      formData.append("user_name", username);
+      fetch('/mypage', { method: "POST", body: formData }).then(res => res.json()).then(data => {
+        console.log(data)
+        let rows = data['cardValues']
+        rows = JSON.parse(rows)
+        console.log(rows)
+        rows.forEach((a) => {
+          let id = a['_id']
+          let selectedDate = a['date']
+          let name = a['user_nm']
+          let icon = a['mood_icon']
+          let text = a['comment']
+
+          const temp_html = '<div class="swiper-slide">' + '<button class="delete">✖</button>' +
+            '<h2 class="card_date">' + selectedDate + '</h2>' +
+            '<p class="card_name">' + name + '님의 날씨</p>' +
+            '<h3 class="card_weather">' + weather_text(icon) + '</h3>' +
+            '<p class="card_text">' + text + '</p>' +
+            '<span class="card_icon">' + icon + '</span>' +
+            '</div>';
+          console.log(temp_html)
+          console.log(typeof id);
+          const temp_element = document.createElement('div');
+          temp_element.innerHTML = temp_html;
+
+          swiperContainer.prepend(temp_element.firstChild);
+        })
+        // window.location.reload()
+      })
+
+      swiperContainer.addEventListener('click', function (e) {
+        if (e.target.classList.contains('delete')) {
+          e.target.closest('.swiper-slide').remove();
+        }
+      });
+    }
+
+    function weather_text(emoji) {
+      switch (emoji) {
+        case '😀':
+          return '대체로 맑음'
+          break;
+
+        case '😆':
+          return '맑음'
+          break;
+
+        case '😫':
+          return '소나기'
+          break;
+
+        case '😕':
+          return '구름 조금'
+          break;
+
+        case '🤬':
+          return '흐림'
+          break;
+
+        default:
+          break;
+      }
+    }
+
+    function set_page(username) {
+      let isEmpty = true
+      if (username == "" || username == null || username == undefined || (username != null && typeof username == "object" && !Object.keys(username).length)) {
+        console.log("############ 세션 없음")
+        isEmpty = true
+      } else {
+        console.log("############ 세션 있음")
+        isEmpty = false
+      }
+      return isEmpty
+    }
+
+    function logout() {
+      localStorage.clear()
+      sessionStorage.clear()
+      window.location.href = '/';
+    }
+
   </script>
 </head>
 
@@ -85,13 +168,6 @@
   <h1 class="title">What's your weather like?</h1>
   <div class="swiper mySwiper">
     <div class="swiper-wrapper">
-      <div class="swiper-slide">
-        <h2 class="card_date">23년 03월 05일</h2>
-        <p class="card_name">도우너 님의 날씨</p>
-        <h3 class="card_weather">맑음</h3>
-        <p class="card_text">오늘은 미세먼지도 없고 날이 너무좋아 산책을하니 기분이 좋다</p>
-        <span class="card_icon">😀</span>
-      </div>
 
       <div class="swiper-slide last">
         <a href="#">
@@ -100,8 +176,7 @@
       </div>
     </div>
   </div>
-
-  <button id="btn_sign">Sign in</button>
+  <button id="btn_sign" onclick="logout()">Log out</button>
   <!-- Swiper JS -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 

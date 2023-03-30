@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
+from bson.json_util import dumps
+# from bson.objectid import ObjectId
 app = Flask(__name__)
 app.secret_key = 'user_nm'
 
@@ -135,12 +137,22 @@ def mood():
     moods.insert_one(mood)
     return jsonify({'msg': '당신의 날씨를 등록 했습니다.'})
 
+# @app.route("/delete", methods=["POST"])
+# def deleteMood():
+#     cardId_receive = request.form['cardId']
+#     print(cardId_receive)
+#     db.th_mood.delete_one({'_id':cardId_receive})
 
-# @app.route('/mood', methods=['GET'])
-# def gopagemood():
-#     if 'user_nm' in session:
-#         username = session['user_nm']
-#         return render_template('mood.html', user_nm=username)
+@app.route("/mypage", methods=["POST"])
+def mypage_post():
+    user_name_receive = request.form['user_name']
+
+    all_moods = list(db.th_mood.find({"user_nm": user_name_receive}))
+    return jsonify({'cardValues': dumps(all_moods)})
+
+@app.route("/mypage", methods=["GET"])
+def mood_get():
+    return render_template('mypage.html', weather_type = weather_type)
 
 @app.route('/login')
 def gologinpage():

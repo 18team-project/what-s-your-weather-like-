@@ -52,11 +52,7 @@
 ## API 설계
 | Aa기능 | method | request | 담당 |
 |:---|:---|:---|:---|
-| 무드 등록 | /mood | {_id: ObjectId('6424b982c6e0eddaf1627558'),
-user_nm: "치코리타",
-comment: "오늘의 당신의 날씨는 어떤가요?,
-"mood_icon: "😆",
-date: "2023-03-29"} |중앙정렬|
+| 무드 등록 | /mood | [{_id: ObjectId('6424b982c6e0eddaf1627558'), user_nm: "항해", comment: "오늘의 당신의 날씨는 어떤가요?, "mood_icon: "😆", date: "2023-03-29"}, {_id: ObjectId('6424b982c6e0eddaf1627558'), user_nm: ”김말순",comment: "봄이다! 오늘이 가장 젊은날!, "mood_icon: "😆", date: "2023-03-29"}] |중앙정렬|
 |왼쪽정렬|오른쪽정렬|중앙정렬|중앙정렬|
 |왼쪽정렬|오른쪽정렬|중앙정렬|중앙정렬|
 

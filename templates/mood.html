@@ -1,3 +1,4 @@
+박하은
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,18 +17,79 @@
         window.onload = function () {
             get_weather_type(w_type)        // 날씨 배경 적용 함수 호출
             isEmpty = set_page(username)    // 세션 정보 확인 함수
-
-            listing()
-            document.getElementById('date').value = new Date().toISOString().substring(0, 10);
-            const moodIconArr = document.getElementsByClassName('mood_span')
-            Array.prototype.forEach.call(moodIconArr, a => {
-                a.addEventListener('click', () => {
-                    Array.prototype.map.call(moodIconArr, b => b.classList.remove('active'))
-                    a.classList.add('active');
-                    curIcon = a.innerText
+            if (!isLoggedIn()) { // 로그인이 되지 않은 경우 로그인 페이지로 이동
+                alert("로그인 후 이용 가능합니다.");
+                window.location.href = "/login";
+            } else {
+                listing()
+                document.getElementById('date').value = new Date().toISOString().substring(0, 10);
+                const moodIconArr = document.getElementsByClassName('mood_span')
+                Array.prototype.forEach.call(moodIconArr, a => {
+                    a.addEventListener('click', () => {
+                        Array.prototype.map.call(moodIconArr, b => b.classList.remove('active'))
+                        a.classList.add('active');
+                        curIcon = a.innerText
+                    })
                 })
-            })
+                // 로그인이 완료되면 로컬 스토리지에 저장된 값을 불러옵니다.
+                loadDraft();
+                // 페이지가 로드되면 사용자의 mood 데이터와 저장된 내용을 가져옵니다.
+                loadUserMoods();
+                // 로그인 상태를 확인하고 로그인 후 돌아온 경우 기존 작성 내용을 보여주기
+                checkLoginStatus();
+            }
+        };
+
+        // 로그인 후 돌아온 경우 기존 작성 내용을 보여주기
+        if (isLoggedIn()) {
+            loadDraft();
         }
+
+        function isLoggedIn() {
+            return username !== null && username !== undefined && username !== "";
+
+        }
+
+        function saveDraft() {
+            const comment = document.getElementById('comment').value; // comment input의 값을 가져옵니다.
+            const moodIcon = document.getElementById('moodIcon').value; // moodIcon input의 값을 가져옵니다.
+
+            // 로컬 스토리지에 저장
+            localStorage.setItem('draft_comment', comment);
+            localStorage.setItem('draft_moodIcon', moodIcon);
+        }
+
+        function checkLoginStatus() {
+            if (isLoggedIn()) {
+                loadDraft();
+            }
+        }
+
+        // 저장된 내용이 있다면 화면에 표시하는 함수
+        function loadDraft() {
+            const draft_date = localStorage.getItem('draft_date');
+            const draft_moodIcon = localStorage.getItem('draft_moodIcon');
+            const draft_comment = localStorage.getItem('draft_comment');
+
+            if (draft_date !== null) {
+                document.getElementById('date').value = draft_date;
+            }
+            if (draft_moodIcon !== null) {
+                curIcon = draft_moodIcon;
+                const moodIconArr = document.getElementsByClassName('mood_span');
+                for (const icon of moodIconArr) {
+                    if (icon.textContent === draft_moodIcon) {
+                        icon.classList.add('active');
+                        break;
+                    }
+                }
+            }
+            if (draft_comment !== null) {
+                document.getElementById('comment').value = draft_comment;
+            }
+        }
+
+        // 페이지가 로드되면 사용자의 mood 데이터와 저장된 내용을 가져옵니다.
 
         function listing() {
             fetch('/login').then((res) => res.json()).then((data) => {
@@ -40,24 +102,34 @@
         }
 
         function posting(isEmpty) {
-            // 세션 정보가 비어있지 않으면 포스팅 동작
-            console.log(isEmpty)
-            if(!isEmpty){
+            // 로그인 여부 확인
+            if (!isLoggedIn()) {
+                saveDraft(); // 로컬 스토리지에 값을 저장
+                alert("로그인 후 이용 가능합니다.");
+                window.location.href = "/login"; // 로그인 페이지로 이동
+            } else {
                 let date = document.querySelector('#date').value
                 let text = document.querySelector('#text').value
                 let moodIcon = curIcon
-                let formData = new FormData();
-                formData.append("date_give", date);
-                formData.append("comment_give", text);
-                formData.append("moodIcon_give", moodIcon);
-                formData.append("user_nm_give", username);
-                fetch('/mood', { method: "POST", body: formData }).then((res) => res.json()).then((data) => {
-                    console.log(data['msg'])
-                    alert(data['msg'])
-                    // window.location.reload()
-                })
-            } else {
-                alert("로그인 후 이용 가능합니다.")
+
+                // 세션 정보가 비어있지 않으면 포스팅 동작
+                console.log(isEmpty)
+                if (!isEmpty) {
+                    let formData = new FormData();
+                    formData.append("date_give", date);
+                    formData.append("comment_give", text);
+                    formData.append("moodIcon_give", moodIcon);
+                    formData.append("user_nm_give", username);
+                    fetch('/mood', { method: "POST", body: formData }).then((res) => res.json()).then((data) => {
+                        console.log(data['msg'])
+                        alert(data['msg'])
+                        // window.location.reload()
+                        window.location.href = "/mypage"; // 마이페이지로 이동
+                    });
+                } else {
+                    alert("로그인 후 이용 가능합니다.");
+                    window.location.href = "/login"; // 로그인 페이지로 이동
+                }
             }
         }
 
@@ -91,7 +163,6 @@
             }
             return isEmpty
         }
-
     </script>
 </head>
 
@@ -122,7 +193,7 @@
                 <textarea name="text" id="text" cols="9" rows="9"></textarea>
             </label>
 
-            <button id="mood_btn" class="submit_btn" type="button" onclick="posting()">
+            <button id="mood_btn" class="submit_btn" type="button" onclick="posting(isEmpty)">
                 저장하기
             </button>
         </div>

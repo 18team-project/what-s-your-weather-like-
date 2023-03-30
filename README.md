@@ -74,10 +74,10 @@
   - 담당 : 신주영
 
 ## API 설계
-| API 기능 | method | 요청 | 응답 |
-|:---:|:---|:---:|:---:|
+| <center>API 기능</center> | **method** | **요청** | **응답** |
+|---|---|---|---|
 | 무드 등록 | /mood | {user_nm:String, user_pw:String} | {msg: String} |
-| 나의 무드 조회 | /mypage | {user_nm:String} | [{_id:Object, user_nm:String, comment:String,</br>mood_icon: String, date: String},</br>{_id:Object, user_nm: String, comment:String,</br>mood_icon:String, date:String}] |
+| 나의 무드 조회 | /mypage | {user_nm:String} | [{_id:Object, user_nm:String, comment:String,</br>mood_icon: String, date: String},</br>{_id:Object, user_nm: String, comment:String,</br>mood_icon:String, date:String}]|
 | 로그인 | /login | {user_nm:String, user_pw:String} | {msg: String} |
 | 회원가입 | /register | {user_nm:String, user_pw:String} | {msg: String} |
 

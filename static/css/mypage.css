@@ -79,10 +79,17 @@ video{
   margin-top: 10px;
 }
 
+.card_weather{
+  text-align: center;
+  margin-top: 50px;
+  font-size: 40px;
+  color: #364F6B;
+}
+
 .card_text{
   font-size: 25px;
   text-align: center;
-  margin-top: 130px;
+  margin-top: 30px;
   padding: 20px;
   box-sizing: border-box;
 }
@@ -108,7 +115,7 @@ video{
   width: 80px;
 }
 
-button {
+#btn_sign {
   background-color: transparent;
   border: 1px solid black;
   padding: 15px;
@@ -123,13 +130,23 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+#btn_sign:hover {
   background-color: rgba(255, 255, 255, 0.9);
   border: 1px solid transparent;
 }
 
+.delete{
+  width: 24px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  font-size: 24px;
+}
 @media (max-width:1315px) {
-  button {
+  #btn_sign {
     font-size: 20px;
   }
 
@@ -140,7 +157,7 @@ button:hover {
 }
 
 @media (max-width:912px) {
-  button {
+  #btn_sign {
     top: initial;
     right: 50%;
     width: 350px;
@@ -151,7 +168,7 @@ button:hover {
     background-color: rgba(255, 255, 255, 0.9);
   }
 
-  button:hover {
+  #btn_sign:hover {
     background-color: rgba(54, 79, 107,0.9);
     color: #fff;
     border: none;
@@ -184,5 +201,4 @@ button:hover {
     font-size: 240px;
     text-align: center;
   }
-
 }

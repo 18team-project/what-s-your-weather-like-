@@ -77,7 +77,7 @@ def home():
 
     ])
     print(list(test2))
-    return render_template('mypage.html', weather_type = weather_type)
+    return render_template('home.html', weather_type = weather_type)
 
 @app.route("/register")
 def go_page_register():

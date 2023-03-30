@@ -24,6 +24,11 @@
   font-weight: 900;
 }
 
+.header_layout a {
+  font-family: 'yleeMortalHeartImmortalMemory';
+    color: #000;
+}
+
 /* 비디오 태그 화면에 가득 채우기 위해 추가. */
 .b_video {
   position: absolute;

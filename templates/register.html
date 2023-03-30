@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>What's your weather like</title>
     <link rel="stylesheet" href="../static/css/register.css">
+    <link rel="stylesheet" href="../../static/css/delete.css">
+    <script src="https://kit.fontawesome.com/fbbf5fdafa.js" crossorigin="anonymous" defer></script>
     <script>
         // 닉네임 사용 가능 여부
         let chkr = false
@@ -17,9 +19,8 @@
 
         window.onload = function () {
             // 날씨
-            
             get_weather_type(w_type)
-            
+
             let nm_input = document.getElementById("user_nm");
             nm_input.addEventListener("input", function (event) {
                 if (event.inputType == "deleteContentBackward") {
@@ -89,7 +90,8 @@
             }
         }
 
-        /* 회원가입
+        /* 
+            회원가입 함수. 회원가입시 입력한 정보를 바탕으로 등록 및 리다이렉트 처리
          */
         function sign_up() {
             if (chkr && chpw) {
@@ -100,32 +102,95 @@
                 formData.append("user_pw", user_pw)
 
                 fetch('/register', { method: "POST", body: formData }).then((res) => res.json()).then((data) => {
-                    document.getElementById("msg_p_alert").innerText = data["msg"]
-                    document.getElementById("msg_p_alert").parentElement.style.display = "block"
-                    document.getElementById("msg_p_alert").parentElement.style.display = "block"
-                    document.getElementById("btn_p_alert").addEventListener("click", function () {
-                        window.location.href = '/mood'
-                    })
-
+                    set_popup('love', data['msg'], false, '/mood', true, true, user_nm)     
                 })
             } else {
                 document.getElementById("user_nm").focus()
             }
         }
 
-        function get_weather_type(weather_type) {
-                let w_type = weather_type;
-                if (w_type.includes('맑음')){
-                    document.getElementById("b_viedo").setAttribute('src', "../static/video/weather/w_sunny.mp4")
-                }else if(w_type.includes('흐림') || w_type.includes('구름') || w_type.includes('흐리고') || w_type.includes('흐린')){
-                    document.getElementById("b_viedo").setAttribute('src', "../static/video/weather/w_partly_cloudy.mp4")
-                }else if(w_type.includes('비') || w_type.includes('소나기') || w_type.includes('강우') || w_type.includes('뇌우')){
-                    document.getElementById("b_viedo").setAttribute('src', "../static/video/weather/w_rain_train.mp4")
-                }else{
-                    document.getElementById("b_viedo").setAttribute('src', "../static/video/ocean.mp4")
-                    
-                }
+        /*
+            팝업 표시를 위한 설정 함수
+            String s_p_type : 표시할 팝업의 타입, [love|sad|smail]
+            String s_p_msg : 팝업에 표시할 메세지
+            Boolean b_p_btn : 버튼 사용 여부 [true - 둘다 사용|false-'예'만 사용]
+            String s_url : 호출할 화면 url
+            Boolean b_p_close : 닫기버튼 활성 여부, [true - 닫기버튼 이벤트|false-'예' 이벤트와 동일]
+            Boolean b_p_session : 세션 활성화 여부, [true - 세션을 바로 담아서 넘겨줘야 하는 경우 ex)회원가입 완료후 로그인 처리 |false-세션 이미 들어있거나 상관 없음]
+            String s_p_user_name : 사용자명, 세션 유지 및 안내 메시지에서 사용 가능
+         */
+         function set_popup(s_p_type, s_p_msg, b_p_btn, s_url, b_p_close, b_p_session, s_p_user_name) {
+            // 팝업 표시
+            for (i = 0; i < document.getElementsByClassName("p_alert").length; i++) {
+                document.getElementsByClassName("p_alert")[i].style.display = "block"
             }
+            // 아이콘 표시
+            document.getElementById(s_p_type).style.display = "block"
+
+            // 버튼 표시
+            if (!b_p_btn) {
+                // 아니오 버튼 표시 안함
+                document.getElementById("btn_p_alert_no").style.display = "none"
+                // 예 버튼 크기 늘리기
+                document.getElementById("btn_p_alert_yes").style.width = "100%"
+            }
+
+            // 이벤트 걸기
+            if (!b_p_btn) {
+                // 예
+                document.getElementById("btn_p_alert_yes").addEventListener("click", function () {
+                    window.location.href = s_url
+                })
+            } else {
+                // 예
+                document.getElementById("btn_p_alert_yes").addEventListener("click", function () {
+                    window.location.href = s_url
+                })
+                // 아니오
+                document.getElementById("btn_p_alert_no").addEventListener("click", function () {
+                    for (i = 0; i < document.getElementsByClassName("p_alert").length; i++) {
+                        document.getElementsByClassName("p_alert")[i].style.display = "none"
+                    }
+                })
+            }
+
+            // 닫기버튼 활성 여부
+            if (b_p_close) {
+                document.getElementById("btn_p_alert_close").addEventListener("click", function () {
+                    window.location.href = s_url
+                })
+            } else {
+                document.getElementById("btn_p_alert_close").addEventListener("click", function () {
+                    for (i = 0; i < document.getElementsByClassName("p_alert").length; i++) {
+                        document.getElementsByClassName("p_alert")[i].style.display = "none"
+                    }
+                })
+            }
+
+            // 세션 넣어주기
+            if(b_p_session){
+                sessionStorage.setItem("username", s_p_user_name);
+            }
+
+            // 메세지 내용 넣기
+            document.getElementById("msg_p_alert").innerText = s_p_user_name+"님\n"+s_p_msg
+        }
+
+        /*
+            날씨 가져오기 함수. 날씨값에 따라 화면 변경
+        */
+        function get_weather_type(weather_type) {
+            let w_type = weather_type;
+            if (w_type.includes('맑음')) {
+                document.getElementById("b_viedo").setAttribute('src', "../static/video/weather/w_sunny.mp4")
+            } else if (w_type.includes('흐림') || w_type.includes('구름') || w_type.includes('흐리고') || w_type.includes('흐린')) {
+                document.getElementById("b_viedo").setAttribute('src', "../static/video/weather/w_partly_cloudy.mp4")
+            } else if (w_type.includes('비') || w_type.includes('소나기') || w_type.includes('강우') || w_type.includes('뇌우')) {
+                document.getElementById("b_viedo").setAttribute('src', "../static/video/weather/w_rain_train.mp4")
+            } else {
+                document.getElementById("b_viedo").setAttribute('src', "../static/video/ocean.mp4")
+            }
+        }
 
 
     </script>
@@ -138,7 +203,7 @@
 
     <div class="wrap_content">
         <h2 class="fir_title">당신의 날씨를 기록하세요!</h2>
-        
+
         <h2 class="sec_title">sign up</h2>
 
         <span class="guide">* 표시된 항목은 필수 입력입니다.</span>
@@ -146,8 +211,8 @@
         <div class="register-info">
             <div class="input-group">
                 <div class="input_group_row1">
-                    <span class="star1">* </span><input id="user_nm" type="text" class="form-control" pattern="^[ㄱ-ㅎㅏ-ㅣ가-힣]*$" requiredplaceholder
-                        placeholder="닉네임" />
+                    <span class="star1">* </span><input id="user_nm" type="text" class="form-control"
+                        pattern="^[ㄱ-ㅎㅏ-ㅣ가-힣]*$" requiredplaceholder placeholder="닉네임" />
                     <button onclick="chk_nm()" type="button" id="chk_nm_btn" disabled="disabled"
                         class="regist_btn">확인하기</button>
                 </div>
@@ -156,10 +221,10 @@
         </div>
         <div class="input-group">
             <div class="input_group_row2">
-                <span class="star2">* </span><input id="user_pw" type="password" class="form-control" oninput="confirm_pw()" required
-                    placeholder="비밀번호" />
-                    <span class="star3">* </span><input id="confirm_pw" type="password" class="form-control" oninput="confirm_pw()" required
-                    placeholder="비밀번호 확인" />
+                <span class="star2">* </span><input id="user_pw" type="password" class="form-control"
+                    oninput="confirm_pw()" required placeholder="비밀번호" />
+                <span class="star3">* </span><input id="confirm_pw" type="password" class="form-control"
+                    oninput="confirm_pw()" required placeholder="비밀번호 확인" />
             </div>
             <div class="input-group-result_text input-group-confirm"></div>
         </div>

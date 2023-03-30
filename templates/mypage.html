@@ -7,21 +7,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>What's your weather like</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
-  <link rel="stylesheet" href="../static/css/home.css">
+  <link rel="stylesheet" href="../static/css/mypage.css">
   <script>
     // 날씨 변수
     let w_type = `{{ weather_type }}`
     // 세션 정보
     let username = sessionStorage.getItem("username");
-
+    
     window.onload = function () {
-  // 날씨
-  // 날씨 가져오기 함수 호출
-  get_weather_type(w_type)
+      // 날씨 가져오기 함수 호출
+      get_weather_type(w_type)
 
-  // 세션 정보에 따라 화면 세팅 변경 함수 호출
-  set_page(username);
-}
+      // 세션 정보에 따라 화면 세팅 변경 함수 호출
+      set_page(username)
+
+      // showMyCard();
+    }
 
     /*
       날씨 가져오기 함수. 날씨값에 따라 화면 변경
@@ -39,32 +40,41 @@
       }
     }
 
-    // /*
-    //   세션 정보에 따라 화면 세팅 변경 함수. 세션 정보가 있으면 조회, 없으면 메인페이지 역할.
-    // */
-    // function set_page(username){
-    //   let isEmpty = true
-    //   if (username == "" || username == null || username == undefined || (username != null && typeof username == "object" && !Object.keys(username).length)) {
-    //     console.log("############ 세션 없음")
-    //     isEmpty =  true
-    //   } else {
-    //     console.log("############ 세션 있음")
-    //     isEmpty = false
-    //   }
-    //   if(!isEmpty){
-    //     // 세션정보 존재. 로그인 상태
-    //     // 로그아웃 버튼
-    //     document.getElementById('signin-link').innerHTML = "Log out"
-    //     document.getElementById('signin-link').addEventListener("click",()=>{
-    //       sessionStorage.removeItem("username")
-    //       location.reload(true)
+    /*
+      세션 정보에 따라 화면 세팅 변경 함수. 세션 정보가 있으면 조회, 없으면 메인페이지 역할.
+    */
+    function set_page(username){
+      let isEmpty = true
+      if (username == "" || username == null || username == undefined || (username != null && typeof username == "object" && !Object.keys(username).length)) {
+        console.log("############ 세션 없음")
+        isEmpty =  true
+      } else {
+        console.log("############ 세션 있음")
+        isEmpty = false
+      }
+      if(!isEmpty){
+        // 세션정보 존재. 로그인 상태
+        // 로그아웃 버튼
+        document.getElementById('btn_sign').innerHTML = "Log out"
+        document.getElementById('btn_sign').addEventListener("click",()=>{
+          sessionStorage.removeItem("username")
+          location.reload(true)
+        })
+        // 데이터 조회
+      }
+    }
+
+    // function showMyCard() {
+    //   fetch('/th_mood').then(res => res.json()).then(data => {
+    //     let rows = data['result']
+    //     $('#bucket-list').empty()
+    //     rows.forEach((a) => {
+    //       let bucket = a['bucket']
+    //       let temp_html = `<li><h2>✅${bucket}</h2></li>`
+    //       $('#bucket-list').append(temp_html)
     //     })
-    //     // 데이터 조회
-    //   }
+    //   })
     // }
-
-
-
   </script>
 </head>
 
@@ -76,38 +86,22 @@
   <div class="swiper mySwiper">
     <div class="swiper-wrapper">
       <div class="swiper-slide">
-        <h2>23년 02월 15일</h2>
-        <p>고길동 님의 날씨</p>
-        <span>🤬</span>
+        <h2 class="card_date">23년 03월 05일</h2>
+        <p class="card_name">도우너 님의 날씨</p>
+        <h3 class="card_weather">맑음</h3>
+        <p class="card_text">오늘은 미세먼지도 없고 날이 너무좋아 산책을하니 기분이 좋다</p>
+        <span class="card_icon">😀</span>
       </div>
 
-      <div class="swiper-slide">
-        <h2>23년 02월 21일</h2>
-        <p>둘리 님의 날씨</p>
-        <span>😆</span>
-      </div>
-
-      <div class="swiper-slide">
-        <h2>23년 02월 27일</h2>
-        <p>또치 님의 날씨</p>
-        <span>😫</span>
-      </div>
-
-      <div class="swiper-slide">
-        <h2>23년 03월 05일</h2>
-        <p>도우너 님의 날씨</p>
-        <span>😀</span>
-      </div>
-
-      <div class="swiper-slide last" id="last-slide">
-        <a href="mood">
+      <div class="swiper-slide last">
+        <a href="#">
           <img src="../static/img/plus-solid.svg" alt="">
         </a>
       </div>
     </div>
   </div>
 
-  <a href="login" id="signin-link"><button>Sign in</button></a>
+  <button id="btn_sign">Sign in</button>
   <!-- Swiper JS -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 

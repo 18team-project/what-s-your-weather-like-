@@ -66,7 +66,7 @@
 - 무드 삭제
   - method : post
   - url : /delete
-  - 담당 : 박하은
+  - 담당 : 신희제, 박하은
 
 - 실시간 날씨 정보
   - method : 
